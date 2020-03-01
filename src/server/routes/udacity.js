@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
 					faq: course.faq,
 					instructors: course.instructors,
 					key: course.key,
+					image: course.image,
 					level: course.level,
 					isFreeCourse: course.metadata.is_free_course,
 					skills: course.metadata.skills,

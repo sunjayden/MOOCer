@@ -16,6 +16,7 @@ const UdacityCourseSchema = mongoose.Schema({
 		title: String
 	}],
 	key: String,
+	image: String,
 	level: String,
 	isFreeCourse: Boolean,
 	skills: [String],
