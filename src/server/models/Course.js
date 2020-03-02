@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UdacityCourseSchema = mongoose.Schema({
+const CourseSchema = mongoose.Schema({
 	affiliates: [{
 		_id: false,
 		image: String,
@@ -39,12 +39,15 @@ const UdacityCourseSchema = mongoose.Schema({
 	syllabus: String,
 	tags: [String],
 	preview: String,
-	title: String,
+	title: {
+		type: String,
+		required: true
+	},
 	tracks: [String],
 	platform: {
 		type: String,
-		default: 'Udacity'
+		required: true
 	}
 });
 
-module.exports = mongoose.model('UdacityCourse', UdacityCourseSchema);
+module.exports = mongoose.model('Course', CourseSchema);

@@ -1,15 +1,15 @@
-const router = require('express').Router();
 const axios = require('axios');
-const UdacityCourse = require('../models/UdacityCourse');
+const Course = require('../models/Course');
 
-router.get('/', async (req, res) => {
+// Import courses
+const courses = async () => {
 	try {
 		const response = await axios.get('https://www.udacity.com/public-api/v1/courses');
 		const courses = response.data.courses
 
 		courses.forEach(async (course) => {
 			if (course.available && course.public_listing) {
-				const udacityCourse = new UdacityCourse({
+				const udacityCourse = new Course({
 					affiliates: course.affiliates,
 					duration: course.expected_duration + ' ' + course.expected_duration_unit,
 					learning: removeTags(course.expected_learning),
@@ -26,24 +26,26 @@ router.get('/', async (req, res) => {
 					shortSummary: course.short_summary,
 					link: 'https://www.udacity.com/course/' + course.slug,
 					starter: course.starter,
-					subtitle: course.subtitle, 
+					subtitle: course.subtitle,
 					summary: removeTags(course.summary),
 					syllabus: course.syllabus,
 					tags: course.tags,
 					preview: course.teaser_video.youtube_url,
 					title: course.title,
-					tracks: course.tracks
+					tracks: course.tracks,
+					platform: 'Udacity'
 				});
-		
+
 				await udacityCourse.save();
 			}
 		});
-		res.send('Added all Udacity courses');
+		console.log('Added all Udacity courses');
 	} catch (error) {
-		res.status(400).send(error.toJSON());
+		console.log(error.toJSON());
 	}
-});
+}
 
-const removeTags = str => str.replace( /(<([^>]+)>)/ig, '');
+// Helper functions
+const removeTags = str => str.replace(/(<([^>]+)>)/ig, '');
 
-module.exports = router;
+module.exports.udacityCourses = courses;

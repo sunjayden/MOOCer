@@ -6,7 +6,7 @@ const os = require('os');
 require('dotenv').config()
 
 // Import routes
-const udacityRoute = require('./routes/udacity');
+const courseRoute = require('./routes/course');
 
 // Import environment variable
 dotenv.config();
@@ -20,7 +20,7 @@ mongoose.connect(process.env.DB_CONNECTION, {
 );
 
 // Route Middlewares
-app.use('/api/udacity', udacityRoute);
+app.use('/api/course', courseRoute);
 
 app.use(express.static('dist'));
 
