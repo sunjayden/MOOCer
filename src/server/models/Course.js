@@ -8,45 +8,37 @@ const CourseSchema = mongoose.Schema({
 	}],
 	duration: String,
 	learning: String,
-	faq: String,
-	instructors: [{
-		_id: false,
-		image: String,
-		name: String,
-		title: String
-	}],
 	key: String,
 	image: String,
 	level: String,
 	isFreeCourse: Boolean,
-	skills: [String],
 	lessons: [{
 		_id: false,
 		points: [String],
 		title: String
 	}],
-	projects: [{
-		_id: false,
-		description: String,
-		name: String
-	}],
+	// projects: [{
+	// 	_id: false,
+	// 	description: String,
+	// 	name: String
+	// }],
 	prerequisite: String,
 	shortSummary: String,
-	link: String,
-	starter: Boolean,
+	url: String,
 	subtitle: String,
 	summary: String,
-	syllabus: String,
 	tags: [String],
-	preview: String,
 	title: {
 		type: String,
 		required: true
 	},
-	tracks: [String],
 	platform: {
 		type: String,
 		required: true
+	},
+	degree: {
+		type: Boolean,
+		default: false
 	}
 });
 

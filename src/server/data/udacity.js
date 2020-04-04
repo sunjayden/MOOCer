@@ -5,35 +5,28 @@ const Course = require('../models/Course');
 const courses = async () => {
 	try {
 		const response = await axios.get('https://www.udacity.com/public-api/v1/courses');
-		const courses = response.data.courses
+		const courses = response.data.courses;
 
 		courses.forEach(async (course) => {
 			if (course.available && course.public_listing) {
 				const udacityCourse = new Course({
 					affiliates: course.affiliates,
 					duration: course.expected_duration + ' ' + course.expected_duration_unit,
-					learning: removeTags(course.expected_learning),
-					faq: course.faq,
-					instructors: course.instructors,
+					learning: removeHtmlTags(course.expected_learning),
 					key: course.key,
 					image: course.image,
 					level: course.level,
 					isFreeCourse: course.metadata.is_free_course,
-					skills: course.metadata.skills,
 					lessons: course.program_syllabus.lessons,
-					projects: course.projects,
-					prerequisite: removeTags(course.required_knowledge),
+					// projects: course.projects,
+					prerequisite: course.required_knowledge,
 					shortSummary: course.short_summary,
-					link: 'https://www.udacity.com/course/' + course.slug,
-					starter: course.starter,
+					url: 'https://www.udacity.com/course/' + course.slug,
 					subtitle: course.subtitle,
-					summary: removeTags(course.summary),
-					syllabus: course.syllabus,
-					tags: course.tags,
-					preview: course.teaser_video.youtube_url,
+					summary: removeHtmlTags(course.summary),
+					tags: combineTags(course.tags, course.tracks, course.skills),
 					title: course.title,
-					tracks: course.tracks,
-					platform: 'Udacity'
+					platform: 'udacity'
 				});
 
 				await udacityCourse.save();
@@ -41,11 +34,60 @@ const courses = async () => {
 		});
 		console.log('Added all Udacity courses');
 	} catch (error) {
+		console.log(error);
+	}
+}
+
+// Import Nanodegrees
+const degrees = async () => {
+	try {
+		const response = await axios.get('https://catalog-api.udacity.com/v1/degrees');
+		const degrees = response.data.degrees.slice(0,1);
+		
+		degrees.forEach(async (course) => {
+			if (course.available) {
+				const udacityDegree = new Course({
+					affiliates: course.affiliates,
+					// duration: course.expected_duration + ' ' + course.expected_duration_unit,
+					learning: removeHtmlTags(course.expected_learning),
+					key: course.key,
+					image: course.image,
+					level: course.level,
+					isFreeCourse: course.metadata.is_free_course,
+					// lessons: course.program_syllabus.lessons,
+					// projects: course.projects,
+					prerequisite: course.required_knowledge,
+					shortSummary: course.short_summary,
+					url: 'https://www.udacity.com/course/' + course.slug,
+					subtitle: course.subtitle,
+					summary: removeHtmlTags(course.summary),
+					// syllabus: course.syllabus,
+					tags: combineTags(course.tags, course.tracks, course.skills),
+					title: course.title,
+					platform: 'Udacity',
+					degree: true
+				});
+				console.log(udacityDegree);
+				// await udacityDegree.save();
+			}
+		});
+		console.log('Added all Udacity degrees');
+	} catch (error) {
 		console.log(error.toJSON());
 	}
 }
 
 // Helper functions
-const removeTags = str => str.replace(/(<([^>]+)>)/ig, '');
+const removeHtmlTags = str => str.replace(/(<([^>]+)>)/ig, '');
 
-module.exports.udacityCourses = courses;
+function combineTags(tags, tracks, skills) {
+	if (tracks) tags.concat(tracks);
+	if (skills) tags.concat(skills);
+	tags.filter(item => item !== 'All')
+	return tags;
+}
+
+module.exports = {
+	udacityCourses: courses,
+	udacityDegree: degrees
+};

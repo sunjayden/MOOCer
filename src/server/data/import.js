@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const {
-	udacityCourses
+	udacityCourses, udacityDegree
 } = require('./udacity');
 require('dotenv').config()
 
@@ -17,5 +17,13 @@ mongoose.connect(process.env.DB_CONNECTION, {
 );
 
 // Import courses and reviews
-// udacityCourses();
-udacityReviews();
+(async () => {
+	try {
+		// await udacityCourses();
+		await udacityDegree();
+	} catch (err) {
+		console.log(err);
+	} finally {
+		process.exit()
+	}
+})();
