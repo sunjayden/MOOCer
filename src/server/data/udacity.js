@@ -23,7 +23,7 @@ const courses = async () => {
 const degrees = async () => {
 	try {
 		const response = await axios.get('https://catalog-api.udacity.com/v1/degrees');
-		const degrees = response.data.degrees.slice(0, 2)
+		const degrees = response.data.degrees
 
 		await degrees.forEach(async (degree_info) => {
 			if (degree_info.available) {

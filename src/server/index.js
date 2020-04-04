@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const os = require('os');
-require('dotenv').config()
 
 // Import routes
+const authRoute = require('./routes/auth');
 const courseRoute = require('./routes/course');
 
 // Import environment variable
@@ -19,8 +21,12 @@ mongoose.connect(process.env.DB_CONNECTION, {
 	() => console.log('Connected to DB!')
 );
 
+// Middlewares
+app.use(bodyParser.json());
+
 // Route Middlewares
-app.use('/api/course', courseRoute);
+app.use('/api/user', authRoute);
+app.use('/api/courses', courseRoute);
 
 app.use(express.static('dist'));
 
