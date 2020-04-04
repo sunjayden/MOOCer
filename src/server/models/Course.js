@@ -39,7 +39,13 @@ const CourseSchema = mongoose.Schema({
 	degree: {
 		type: Boolean,
 		default: false
-	}
+	},
+	reviews: [{
+		name: String,
+		rating: Number,
+		comment: String,
+		created_at: Date
+	}]
 });
 
 module.exports = mongoose.model('Course', CourseSchema);

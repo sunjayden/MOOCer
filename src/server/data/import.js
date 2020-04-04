@@ -19,11 +19,12 @@ mongoose.connect(process.env.DB_CONNECTION, {
 // Import courses and reviews
 (async () => {
 	try {
-		// await udacityCourses();
+		await udacityCourses();
 		await udacityDegree();
+		process.exit()
 	} catch (err) {
 		console.log(err);
 	} finally {
-		process.exit()
+		// process.exit()
 	}
 })();
