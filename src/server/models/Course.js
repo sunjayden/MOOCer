@@ -48,4 +48,6 @@ const CourseSchema = mongoose.Schema({
 	}]
 });
 
+CourseSchema.index({'title': 'text', 'tags': 'text', 'summary': 'text'})
+
 module.exports = mongoose.model('Course', CourseSchema);

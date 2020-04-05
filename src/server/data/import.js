@@ -21,7 +21,6 @@ mongoose.connect(process.env.DB_CONNECTION, {
 	try {
 		await udacityCourses();
 		await udacityDegree();
-		process.exit()
 	} catch (err) {
 		console.log(err);
 	} finally {

@@ -21,6 +21,9 @@ mongoose.connect(process.env.DB_CONNECTION, {
 	() => console.log('Connected to DB!')
 );
 
+// DB Setting
+mongoose.set('useCreateIndex', true);
+
 // Middlewares
 app.use(bodyParser.json());
 
