@@ -61,6 +61,4 @@ router.get('/:id', async (req, res) => {
 	return res.send(course);
 });
 
-
-
 module.exports = router;
