@@ -3,6 +3,7 @@ import CatalogItem from "./catalog-item";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Pagination from "react-bootstrap/Pagination";
 // onComponentMount(){
 // jsonthing = APIrequest # [{},{}], ->[{},{}]
 // this.setstate(jsonthing)
@@ -13,37 +14,98 @@ class Catalog extends Component {
     fetch("http://localhost:3000/api/courses")
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ courseList: data.courses });
+        console.log(data);
+        this.setState({
+          courseList: data.courses,
+          current_page: data.page,
+          per_page: data.per_page,
+          max_page: data.pages,
+        });
         console.log(this.state.courseList);
       })
       .catch(console.log);
   }
-
   constructor(props) {
     super(props);
     this.state = {
       courseList: [],
+      per_page: 1,
+      max_page: 1,
+      current_page: 1,
     };
   }
 
-  renderTableData() {
-    // console.log(this.state.courseList);
-    // <p>{this.state.courseList}</p>;
-    // <p>whljaslkdfjklsdfjldsf</p>;
+  renderPagination() {
+    let active = this.state.current_page;
+    let items = [];
+    let start_index = active;
+    let end_index = active + 2;
+    if (active > 1) {
+      items.push(<Pagination.Prev key={active - 1} />);
+      items.push(
+        <Pagination.Item key={1} style={{ color: "#8ea6b2" }}>
+          {1}
+        </Pagination.Item>
+      );
+      if (active - 1 > 1) {
+        start_index = active - 1;
+      } else if (active - 1 > 2) {
+        start_index = active - 1;
+        items.push(
+          <Pagination.Ellipsis
+            key={start_index - 1}
+            style={{ color: "#8ea6b2" }}
+          />
+        );
+      }
+    }
+    if (end_index > this.state.max_page) {
+      end_index = this.state.max_page;
+    }
+    for (let number = start_index; number <= end_index; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === active}>
+          {number}
+        </Pagination.Item>
+      );
+    }
+    if (end_index < this.state.max_page - 2) {
+      items.push(<Pagination.Ellipsis key={end_index + 1} />);
+    }
+    if (end_index < this.state.max_page) {
+      items.push(
+        <Pagination.Item key={this.state.max_page}>
+          {this.state.max_page}
+        </Pagination.Item>
+      );
+      items.push(
+        <Pagination.Next
+          key={this.state.max_page + 1}
+          onClick={this.onClick.bind(this, active + 1)}
+        />
+      );
+    }
 
+    return (
+      <div className="mt-2 mr-2 overflow-auto" style={{ float: "right" }}>
+        <Pagination>{items}</Pagination>
+      </div>
+    );
+  }
+
+  onClick(pageNumber) {
+    this.setState({
+      current_page: pageNumber,
+    });
+  }
+
+  renderTableData() {
     return this.state.courseList.map((course, index) => {
       return (
-        // <tr key={index}>
-        // <p>course.summary</p>
-        <Row
-          className="h-25 p-2 align-items-center justify-content-center"
-          key={index}
-        >
-          <Col
-            className="p-0"
-            // xs={{ span: 5 }}
-          >
-            <CatalogItem courseDetail={course} />
+        <Row className="h-30 pb-2" key={index}>
+          {/* <div style={{ visibility: this.state.driverDetails.firstName != undefined? 'visible': 'hidden'}}></div> */}
+          <Col>
+            <CatalogItem courseDetail={course} index={index} />
           </Col>
         </Row>
       );
@@ -52,30 +114,15 @@ class Catalog extends Component {
 
   render() {
     return (
-      <Container fluid className="h-100 text-center" style={{ width: "90%" }}>
+      <Container fluid className="h-100" style={{ width: "90%" }}>
         <h1 id="title" className="text-center" style={{ color: "#47646f" }}>
           Courses
         </h1>
-        {/* <Pagination>
-          <Pagination.First />
-          <Pagination.Prev />
-          <Pagination.Item>{1}</Pagination.Item>
-          <Pagination.Ellipsis />
 
-          <Pagination.Item>{10}</Pagination.Item>
-          <Pagination.Item>{11}</Pagination.Item>
-          <Pagination.Item active>{12}</Pagination.Item>
-          <Pagination.Item>{13}</Pagination.Item>
-          <Pagination.Item disabled>{14}</Pagination.Item>
-
-          <Pagination.Ellipsis />
-          <Pagination.Item>{20}</Pagination.Item>
-          <Pagination.Next />
-          <Pagination.Last />
-        </Pagination> */}
         <Container className="overflow-auto" style={{ height: "80%" }}>
           {this.renderTableData()}
         </Container>
+        {this.renderPagination()}
       </Container>
     );
   }
