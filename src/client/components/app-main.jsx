@@ -24,7 +24,7 @@ class Main extends Component {
         style={{
           height: "100vh",
           width: "100vw",
-          background: `url(${bg_img})`,
+          // background: `url(${bg_img})`,
           backgroundPosition: "center",
           backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
