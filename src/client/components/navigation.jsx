@@ -17,12 +17,16 @@ class Navigation extends Component {
   // };
   render() {
     return (
-      <Navbar className="Nav w-100 h-100" bg="primary" variant="dark">
-        <Navbar.Brand href="#home">MOOCer</Navbar.Brand>
+      <Navbar
+        className="Nav w-100 h-100 text-white"
+        style={{ backgroundColor: "#47646f" }}
+        variant="dark"
+      >
+        <Navbar.Brand href="/">MOOCer</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#about">About</Nav.Link>
-          <Nav.Link href="#catalog">Catalog</Nav.Link>
+          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/about">About</Nav.Link>
+          <Nav.Link href="/catalog">Catalog</Nav.Link>
         </Nav>
 
         <Form className="navbar-form" role="search">
@@ -40,6 +44,7 @@ class Navigation extends Component {
               </button>
             </div>
             <Button
+              // className="btn btn-secondary"
               variant="outline-light"
               onClick={() => this.setState({ modalShow: true })}
             >

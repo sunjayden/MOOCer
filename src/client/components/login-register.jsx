@@ -27,7 +27,11 @@ function LoginRegisterModal(props) {
         <Tab.Container defaultActiveKey="Login">
           <Row>
             <Col xs={12}>
-              <Nav variant="pills" className="flex-column text-center">
+              <Nav
+                variant="pills"
+                className="flex-column text-center "
+                // style={{ backgroundColor: "#47646f" }}
+              >
                 <Row>
                   <Col xs={6}>
                     <Nav.Item>

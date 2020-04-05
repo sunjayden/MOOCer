@@ -1,30 +1,44 @@
+import React, { Component } from "react";
+import Card from "react-bootstrap/Card";
+
 class CatalogItem extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    const {
+      _id,
+      tags,
+      degree,
+      affiliates,
+      duration,
+      learning,
+      key,
+      image,
+      level,
+      isFreeCourse,
+      lessons,
+      prerequisite,
+      shortSummary,
+      url,
+      subtitle,
+      summary,
+      title,
+      platform,
+      __v,
+    } = this.props.courseDetail;
+  }
+
+  //destructuring
+
   render() {
     return (
       <Card>
-        <Card.Header>
-          <Nav variant="tabs" defaultActiveKey="#first">
-            <Nav.Item>
-              <Nav.Link href="#first">Active</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="#link">Link</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="#disabled" disabled>
-                Disabled
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Card.Header>
+        {/* <Card.Header>
+          {this.title}
+        </Card.Header> */}
         <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
-            With supporting text below as a natural lead-in to additional
-            content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
+          <Card.Title>{this.props.courseDetail.title}</Card.Title>
+          <Card.Text>{this.props.courseDetail.shortSummary}</Card.Text>
+          {/* <Button variant="primary">Go somewhere</Button> */}
         </Card.Body>
       </Card>
     );

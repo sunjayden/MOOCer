@@ -9,12 +9,13 @@ class HomeCarousel extends Component {
   state = {};
   render() {
     return (
-      <Row className="h-100 justify-content-center align-content-center p-2">
+      <Row className="h-100 justify-content-center align-content-center">
         <Carousel
+          className="h-100"
           controls={false}
           indicators={false}
           style={{
-            overflow: "hidden"
+            overflow: "hidden",
           }}
         >
           <Carousel.Item className="h-100">
@@ -36,7 +37,10 @@ class HomeCarousel extends Component {
               alt="Second slide"
             />
             <Carousel.Caption>
-              <a href="#catalog" className="text-white font-weight-bold">
+              <a
+                href="#catalog"
+                className="text-white font-weight-bold align-content-center"
+              >
                 <h3>Catalog</h3>
               </a>
             </Carousel.Caption>
