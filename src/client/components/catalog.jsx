@@ -1,31 +1,14 @@
 import React, { Component } from "react";
+import { Container, Row, Col, Pagination, Form } from "react-bootstrap"
+import { GoSearch } from "react-icons/go";
 import CatalogItem from "./catalog-item";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Pagination from "react-bootstrap/Pagination";
-// onComponentMount(){
-// jsonthing = APIrequest # [{},{}], ->[{},{}]
-// this.setstate(jsonthing)
+import './catalog.css'
 
-// }
 class Catalog extends Component {
   componentDidMount() {
     this.loadPage();
-    // fetch("http://localhost:3000/api/courses")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.setState({
-    //       courseList: data.courses,
-    //       current_page: data.page,
-    //       per_page: data.per_page,
-    //       max_page: data.pages,
-    //     });
-    //     console.log(this.state.courseList);
-    //   })
-    //   .catch(console.log);
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,12 +20,10 @@ class Catalog extends Component {
   }
 
   renderPagination() {
-    console.log("render pagination");
     let active = this.state.current_page;
     let items = [];
     let start_index = active;
     let end_index = active + 1;
-    let key = 0;
     if (active > 1) {
       items.push(
         <Pagination.Prev
@@ -50,7 +31,6 @@ class Catalog extends Component {
           onClick={() => this.getTablePage(this.state.current_page - 1)}
         />
       );
-      // key += 1;
       items.push(
         <Pagination.Item
           key={1}
@@ -60,14 +40,12 @@ class Catalog extends Component {
           {1}
         </Pagination.Item>
       );
-      // key += 1;
     }
     if (active - 1 == 2) {
       start_index = active - 1;
     } else if (active - 1 > 2) {
       start_index = active - 1;
-      items.push(<Pagination.Ellipsis key={-2} style={{ color: "#8ea6b2" }} />);
-      // key += 1;
+      items.push(<Pagination.Ellipsis key={-2} />);
     }
     if (end_index > this.state.max_page) {
       end_index = this.state.max_page;
@@ -82,11 +60,9 @@ class Catalog extends Component {
           {number}
         </Pagination.Item>
       );
-      // key += 1;
     }
     if (end_index < this.state.max_page - 1) {
       items.push(<Pagination.Ellipsis key={-3} />);
-      // key += 1;
     }
     if (end_index < this.state.max_page) {
       items.push(
@@ -97,7 +73,6 @@ class Catalog extends Component {
           {this.state.max_page}
         </Pagination.Item>
       );
-      // key += 1;
     }
     if (end_index != this.state.max_page) {
       items.push(
@@ -113,8 +88,6 @@ class Catalog extends Component {
   }
 
   getTablePage(pageNumber) {
-    console.log("page number");
-    console.log(pageNumber);
     this.setState(
       {
         current_page: pageNumber,
@@ -155,15 +128,46 @@ class Catalog extends Component {
 
   render() {
     return (
-      <Container fluid className="h-100" style={{ width: "90%" }}>
-        <h1 id="title" className="text-center" style={{ color: "#47646f" }}>
-          Courses
+      <Container fluid>
+        <h1 className="catalog-title">
+          Course Catalog
         </h1>
+        <Row>
+          <Col md={{ span: 8, offset: 2 }}>
+            <Form className="search-form" role="search">
+              <div className="input-group add-on">
+                <input
+                  className="form-control search-input"
+                  placeholder="Search"
+                  name="srch-term"
+                  id="srch-term"
+                  type="text"
+                />
+                <div className="input-group-btn">
+                  <button className="btn btn-default search-button" type="submit">
+                    <GoSearch />
+                  </button>
+                </div>
+              </div>
+            </Form>
+          </Col>
+        </Row>
 
-        <Container className="overflow-auto" style={{ height: "80%" }}>
-          {this.renderTableData()}
+        <Container className="content">
+          <Row>
+            <Col md={3}>
+              <h4 className="filter-title">FILTER BY</h4>
+            </Col>
+            <Col md={9}>
+              <Container className="course-table">
+                {this.renderTableData()}
+              </Container>
+              <Container className="pagination-container">
+                {this.renderPagination()}
+              </Container>
+            </Col>
+          </Row>
         </Container>
-        <Container className="text-center">{this.renderPagination()}</Container>
       </Container>
     );
   }

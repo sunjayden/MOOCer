@@ -3,6 +3,7 @@ import "./app.css";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import Main from "./components/app-main";
+import Catalog from "./components/catalog";
 
 export default class App extends Component {
   state = { username: null };
@@ -16,7 +17,7 @@ export default class App extends Component {
   render() {
     return (
       <BrowserRouter basename="/">
-        <Main />
+        <Catalog />
       </BrowserRouter>
     );
   }
