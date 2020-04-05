@@ -63,8 +63,6 @@ class CatalogItem extends Component {
           <Button
             style={{
               float: "right",
-              // backgroundColor: "#8ea6b2",
-
               color: this.props.index % 2 == 0 ? "#8ea6b2" : "#f6f8fa",
               backgroundColor:
                 this.props.index % 2 == 0 ? "#f6f8fa" : "#c3ccd3",
@@ -72,7 +70,6 @@ class CatalogItem extends Component {
               outlineColor: "none",
               marginTop: "10px",
             }}
-            // variant="primary"
           >
             Detail
           </Button>
