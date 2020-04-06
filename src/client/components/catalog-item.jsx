@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card, ListGroup, ListGroupItem, Button, Media } from "react-bootstrap";
-import { Container, Row, Col } from "react-bootstrap"
-import "./catalog-item.css"
+import { Container, Row, Col } from "react-bootstrap";
+import "./catalog-item.css";
 
 class CatalogItem extends Component {
   constructor(props) {
@@ -11,10 +11,12 @@ class CatalogItem extends Component {
   //destructuring
 
   render() {
-    let level = this.props.courseDetail.level.slice(0,1).toUpperCase() + this.props.courseDetail.level.slice(1);
-    let price = ""
+    let level =
+      this.props.courseDetail.level.slice(0, 1).toUpperCase() +
+      this.props.courseDetail.level.slice(1);
+    let price = "";
     if (this.props.courseDetail.isFreeCourse == true) {
-      price = "Free"
+      price = "Free";
     }
     return (
       <Media className="course-card">
@@ -25,8 +27,12 @@ class CatalogItem extends Component {
         <Media.Body>
           <div className="provider">Udacity</div>
           <h3 className="course-title">{this.props.courseDetail.title}</h3>
-          <p className="course-summary">{this.props.courseDetail.shortSummary}</p>
-          <p className="course-meta">{level} | {this.props.courseDetail.duration} { " | " + price}</p>
+          <p className="course-summary">
+            {this.props.courseDetail.shortSummary}
+          </p>
+          <p className="course-meta">
+            {level} | {this.props.courseDetail.duration} {" | " + price}
+          </p>
         </Media.Body>
       </Media>
       // <Container>
