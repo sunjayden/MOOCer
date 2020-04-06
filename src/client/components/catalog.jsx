@@ -81,7 +81,6 @@ class Catalog extends Component {
           onClick={() => this.getTablePage(this.state.current_page + 1)}
         />
       );
-      // key += 1;
     }
     console.log(items);
     return <Pagination className="text-center mt-3">{items}</Pagination>;

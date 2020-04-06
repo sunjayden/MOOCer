@@ -1,35 +1,18 @@
 import React, { Component } from "react";
-import { Card, ListGroup, ListGroupItem, Button, Media } from "react-bootstrap";
-import { Container, Row, Col } from "react-bootstrap";
-import { useHistory, Router, Redirect } from "react-router-dom";
+import { Media } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./catalog-item.css";
-import { withRouter } from "react-router-dom";
 
 class CatalogItem extends Component {
   constructor(props) {
     super(props);
   }
 
-  //destructuring
-  // routeChange = () => {
-  //   let path = "/catalog/" + this.props.courseDetail._id;
-  //   let history = useHistory();
-  //   console.log(path);
-  //   console.log(history);
-  //   router.push(path);
-  // };
-  // nextPath(path) {
-  //   this.props.history.push(path);
-  // }
-
   render() {
     let level =
       this.props.courseDetail.level.slice(0, 1).toUpperCase() +
       this.props.courseDetail.level.slice(1);
-    let price = "";
-    if (this.props.courseDetail.isFreeCourse == true) {
-      price = "Free";
-    }
+    let price = this.props.courseDetail.isFreeCourse == true ? "Free" : "";
 
     return (
       <Media className="course-card">
@@ -39,7 +22,7 @@ class CatalogItem extends Component {
         />
         <Media.Body>
           <div className="provider">Udacity</div>
-          <h3 className="course-title">{this.props.courseDetail.title}</h3>
+          <h3><Link to={"/course/" + this.props.courseDetail._id} className="course-title">{this.props.courseDetail.title}</Link></h3>
           <p className="course-summary">
             {this.props.courseDetail.shortSummary}
           </p>
@@ -47,14 +30,14 @@ class CatalogItem extends Component {
             {level} | {this.props.courseDetail.duration} {" | " + price}
           </p>
           <div className="text-right">
-            <Redirect
+            {/* <Redirect
               to={{
                 pathname: "/catalog/" + this.props.courseDetail._id,
                 state: { courseid: this.props.courseDetail._id },
               }}
             >
               More Detail
-            </Redirect>
+            </Redirect> */}
             {/* <Button
               className="ml-auto"
               onClick={
