@@ -57,7 +57,9 @@ const courseIdValidation = (data) => {
 		courseId: Joi.string()
 			.min(24)
 			.max(24)
-			.required()
+			.required(),
+		perPage: Joi.string(),
+		page: Joi.string()
 	});
 
 	return schema.validate(data);

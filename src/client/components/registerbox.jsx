@@ -5,7 +5,7 @@ class RegisterBox extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: "",
+			name: "",
 			email: "",
 			password: "",
 			errors: [],
@@ -36,9 +36,9 @@ class RegisterBox extends Component {
 		});
 	}
 
-	onUsernameChange(e) {
-		this.setState({ username: e.target.value });
-		this.clearValidationErr("username");
+	onNameChange(e) {
+		this.setState({ name: e.target.value });
+		this.clearValidationErr("name");
 	}
 
 	onEmailChange(e) {
@@ -67,8 +67,8 @@ class RegisterBox extends Component {
 
 		console.log(this.state);
 
-		if (this.state.username == "") {
-			this.showValidationErr("username", "Username Cannot be empty!");
+		if (this.state.name == "") {
+			this.showValidationErr("name", "Name Cannot be empty!");
 		}
 		if (this.state.email == "") {
 			this.showValidationErr("email", "Email Cannot be empty!");
@@ -80,13 +80,13 @@ class RegisterBox extends Component {
 	}
 
 	render() {
-		let usernameErr = null,
+		let nameErr = null,
 			passwordErr = null,
 			emailErr = null;
 
 		for (let err of this.state.errors) {
-			if (err.elm == "username") {
-				usernameErr = err.msg;
+			if (err.elm == "name") {
+				nameErr = err.msg;
 			}
 			if (err.elm == "password") {
 				passwordErr = err.msg;
@@ -119,17 +119,17 @@ class RegisterBox extends Component {
 				<div className="box">
 
 					<div className="input-group">
-						<label htmlFor="username">Username</label>
+						<label htmlFor="name">Name</label>
 						<input
 							type="text"
-							name="username"
+							name="name"
 							className="login-input"
-							placeholder="Username"
+							placeholder="Name"
 							onChange={this
-								.onUsernameChange
+								.onNameChange
 								.bind(this)} />
-						<small className="danger-error">{usernameErr
-							? usernameErr
+						<small className="danger-error">{nameErr
+							? nameErr
 							: ""}</small>
 					</div>
 
