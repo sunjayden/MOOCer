@@ -51,8 +51,21 @@ const reviewValidation = (data) => {
 	return schema.validate(data);
 };
 
+// Course ID Validation
+const courseIdValidation = (data) => {
+	const schema = Joi.object({
+		courseId: Joi.string()
+			.min(24)
+			.max(24)
+			.required()
+	});
+
+	return schema.validate(data);
+};
+
 module.exports = {
 	registerValidation,
 	loginValidation,
-	reviewValidation
+	reviewValidation,
+	courseIdValidation
 };

@@ -1,10 +1,16 @@
 const router = require('express').Router();
 const Review = require('../models/Review')
 const {
-	reviewValidation
+	reviewValidation,
+	courseIdValidation
 } = require('../validation');
 
 router.get('/', async (req, res) => {
+	const {
+		error
+	} = courseIdValidation(req.query);
+	if (error) return res.status(400).send(error.details[0].message);
+
 	const courseId = req.query.courseId
 	const perPage = parseInt(req.query.perPage) || 5;
 	const page = parseInt(req.query.page) || 1;
