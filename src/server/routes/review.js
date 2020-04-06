@@ -5,16 +5,17 @@ const {
 } = require('../validation');
 
 router.get('/', async (req, res) => {
+	const courseId = req.query.courseId
 	const perPage = parseInt(req.query.perPage) || 5;
 	const page = parseInt(req.query.page) || 1;
 
-	const reviews = await Review.find()
+	const reviews = await Review.find({course: courseId})
 		.skip((perPage * page) - perPage)
 		.limit(perPage)
 		.sort({date: -1});
 	const numOfReviews = await Review.countDocuments();
 
-	const allReviews = await Review.find().select('rating -_id');
+	const allReviews = await Review.find({course: courseId}).select('rating -_id');
 
 	return res.send({
 		reviews: reviews,
