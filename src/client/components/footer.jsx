@@ -1,19 +1,12 @@
 import React, { Component } from "react";
-import {Container, Row, Col} from "react-bootstrap";
+import { FaHeart } from "react-icons/fa";
 
 class Footer extends Component {
-  state = {};
   render() {
     return (
-      <div
-        className="text-white d-flex fixed-buttom justify-content-center align-self-center h-100"
-        style={{ backgroundColor: "#47646f" }}
-      >
-        MOOCer 2.0. Made with ❤️ by Jayden Sun and Yuli Liu
-      </div>
-      // <footer className="bg-info text-white justify-content-center fixed-buttom">
-      //   MOOCer 2.0. Made with ❤️ by Jayden Sun and Yuli Liu
-      // </footer>
+      <footer className='footer mt-auto py-3 bg-light' style={{bottom: "0", position: "inherit", width: "100%"}}>
+        <div style={{textAlign: "center"}}>MOOCer 2.0. Made with <FaHeart style={{color: "#e25555"}}/> by Jayden Sun and Yuli Liu</div>
+      </footer>
     );
   }
 }

@@ -12,7 +12,7 @@ class Navigation extends Component {
   render() {
     return (
       <Navbar collapseOnSelect bg="light" variant="light">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img
             alt=""
             src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png"
@@ -25,7 +25,7 @@ class Navigation extends Component {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="/about">Overview</Nav.Link>
+            <Nav.Link href="/overview">Overview</Nav.Link>
             <NavDropdown title="Programs" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -35,12 +35,12 @@ class Navigation extends Component {
             </NavDropdown>
           </Nav>
           <div className="vl"></div>
-          <Link to='/auth?q=login'>
+          <Nav.Link className="nav-button" href="/auth?q=login">
             <Button className="login-button" variant="outline-primary">Log In</Button>
-          </Link>
-          <Link to='/auth?q=signup'>
+          </Nav.Link>
+          <Nav.Link className="nav-button" href="/auth?q=signup">
             <Button className="signup-button">Sign Up</Button>
-          </Link>
+          </Nav.Link>
         </Navbar.Collapse>
       </Navbar>
     );

@@ -128,7 +128,7 @@ class Catalog extends Component {
 
   render() {
     return (
-      <Container fluid>
+      <Container fluid className="catalog-container">
         <h1 className="catalog-title">
           Course Catalog
         </h1>

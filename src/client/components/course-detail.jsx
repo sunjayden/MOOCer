@@ -31,7 +31,9 @@ class CourseDetail extends Component {
     };
   }
   componentDidMount() {
-    const handle = this.props.location.state.courseid;
+    console.log("a")
+    console.log(this.props.match.params.id)
+    const handle = this.props.match.params.id;
     fetch(`http://localhost:3000/api/courses/${handle}`)
       .then((res) => res.json())
       .then((data) => {
