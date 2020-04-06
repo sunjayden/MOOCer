@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Form, Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
 import Lessons from "./lesson";
 
 class CourseDetail extends Component {
@@ -31,8 +26,6 @@ class CourseDetail extends Component {
     };
   }
   componentDidMount() {
-    console.log("a")
-    console.log(this.props.match.params.id)
     const handle = this.props.match.params.id;
     fetch(`http://localhost:3000/api/courses/${handle}`)
       .then((res) => res.json())
@@ -61,11 +54,19 @@ class CourseDetail extends Component {
 
   render() {
     let freeCourse = this.state.isFreeCourse == true ? "Free " : "";
+    let platform =
+      this.state.platform.slice(0, 1).toUpperCase() +
+      this.state.platform.slice(1);
+
+    let captalize = (str) => {
+      return str.slice(0, 1).toUpperCase() + str.slice(1);
+    }
+
     return (
       <Container className="align-items-center justify-content-center align-middle">
         <Row>
           <Col className="summary mt-5" xs={12}>
-            <Jumbotron>
+            <Jumbotron style={{ backgroundImage: 'url(' + 'https://mdbootstrap.com/img/Photos/Others/gradient1.jpg' + ')', backgroundSize: 'cover', }}>
               <h1>{this.state.title}</h1>
               <p style={{ color: "#47646f" }}>{this.state.subtitle}</p>
               <Button
@@ -100,7 +101,7 @@ class CourseDetail extends Component {
               </Col>
               <Col xs={4}>
                 <h6>Skill Level</h6>
-                <h5>{this.state.level}</h5>
+                <h5>{captalize(this.state.level)}</h5>
               </Col>
             </Row>
             <Row className="prerequisite mt-3">
@@ -113,7 +114,7 @@ class CourseDetail extends Component {
             <Row className="platform mt-3">
               <Col xs={12}>
                 <h6>Platform</h6>
-                <h5>{this.state.platform}</h5>
+                <h5>{captalize(this.state.platform)}</h5>
               </Col>
             </Row>
           </Col>
