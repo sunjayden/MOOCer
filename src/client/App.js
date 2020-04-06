@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import "./app.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Main from "./components/app-main";
+import Home from "./components/app-main";
 import Catalog from "./components/catalog";
+import About from "./components/about";
+import Nav from "./components/navigation";
+import Footer from "./components/footer";
 
 export default class App extends Component {
   state = { username: null };
@@ -15,10 +18,19 @@ export default class App extends Component {
   }
 
   render() {
+    const { username } = this.state;
     return (
-      <BrowserRouter basename="/">
-        <Main />
-      </BrowserRouter>
+      <Router>
+        <div className="App">
+          <Nav />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/about" component={About} />
+            <Route path="/catalog" component={Catalog} />
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
     );
   }
 }
