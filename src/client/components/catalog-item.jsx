@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Card, ListGroup, ListGroupItem, Button, Media } from "react-bootstrap";
 import { Container, Row, Col } from "react-bootstrap";
+import { useHistory, Router, Redirect } from "react-router-dom";
 import "./catalog-item.css";
+import { withRouter } from "react-router-dom";
 
 class CatalogItem extends Component {
   constructor(props) {
@@ -9,6 +11,16 @@ class CatalogItem extends Component {
   }
 
   //destructuring
+  // routeChange = () => {
+  //   let path = "/catalog/" + this.props.courseDetail._id;
+  //   let history = useHistory();
+  //   console.log(path);
+  //   console.log(history);
+  //   router.push(path);
+  // };
+  // nextPath(path) {
+  //   this.props.history.push(path);
+  // }
 
   render() {
     let level =
@@ -18,6 +30,7 @@ class CatalogItem extends Component {
     if (this.props.courseDetail.isFreeCourse == true) {
       price = "Free";
     }
+
     return (
       <Media className="course-card">
         <img
@@ -33,6 +46,25 @@ class CatalogItem extends Component {
           <p className="course-meta">
             {level} | {this.props.courseDetail.duration} {" | " + price}
           </p>
+          <div className="text-right">
+            <Redirect
+              to={{
+                pathname: "/catalog/" + this.props.courseDetail._id,
+                state: { courseid: this.props.courseDetail._id },
+              }}
+            >
+              More Detail
+            </Redirect>
+            {/* <Button
+              className="ml-auto"
+              onClick={
+                () => this.routeChange()
+                // this.nextPath("/catalog/" + this.props.courseDetail._id)
+              }
+            > */}
+            {/* More Detail
+            </Button> */}
+          </div>
         </Media.Body>
       </Media>
       // <Container>

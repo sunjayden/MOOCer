@@ -1,0 +1,29 @@
+.btn-primary {
+  color: #f6f8fa;
+  background-color: #47646f;
+  border-color: #47646f;
+}
+.jumbotron {
+  /* background-color: #c3ccd3; */
+  background-color: #e5e9ed;
+}
+.h1,
+h1 {
+  color: #1e383c;
+}
+.h6,
+h6 {
+  color: #47646f;
+}
+.h5,
+h5 {
+  color: #1e383c;
+}
+
+/* #1e383c
+
+#47646f
+#8ea6b2
+#c3ccd3
+#E5E9ED
+#f6f8fa */
