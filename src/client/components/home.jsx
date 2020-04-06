@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import HomeCarousel from "./home-carousel";
 import cat_img1 from "./imgs/catalog_1.png";
 import gs_img1 from "./imgs/get_started.png";
-import LoginRegisterModal from "./login-register";
+// import LoginRegisterModal from "./login-register";
 
 class Home extends Component {
   // state = {};
@@ -59,10 +59,10 @@ class Home extends Component {
               }}
               onClick={() => this.setState({ modalShow: true })}
             ></Row>
-            <LoginRegisterModal
+            {/* <LoginRegisterModal
               show={this.state.modalShow}
               onHide={() => this.setState({ modalShow: false })}
-            />
+            /> */}
           </Col>
         </Row>
       </Container>

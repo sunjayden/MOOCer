@@ -6,6 +6,7 @@ import Home from "./components/app-main";
 import Catalog from "./components/catalog";
 import About from "./components/about";
 import Nav from "./components/navigation";
+import Auth from "./components/authentication";
 import Footer from "./components/footer";
 
 export default class App extends Component {
@@ -25,10 +26,11 @@ export default class App extends Component {
           <Nav />
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/auth" component={Auth} />
             <Route path="/about" component={About} />
             <Route path="/catalog" component={Catalog} />
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     );

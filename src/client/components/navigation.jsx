@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Link } from 'react-router-dom'
 import Logo from "./imgs/logo.png";
 import "./navigation.css"
 
@@ -34,8 +35,12 @@ class Navigation extends Component {
             </NavDropdown>
           </Nav>
           <div className="vl"></div>
-          <Button className="login-button" variant="outline-primary">Log In</Button>
-          <Button className="signup-button">Sign Up</Button>
+          <Link to='/auth?q=login'>
+            <Button className="login-button" variant="outline-primary">Log In</Button>
+          </Link>
+          <Link to='/auth?q=signup'>
+            <Button className="signup-button">Sign Up</Button>
+          </Link>
         </Navbar.Collapse>
       </Navbar>
     );
