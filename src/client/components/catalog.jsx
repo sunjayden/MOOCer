@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Pagination, Form } from "react-bootstrap"
 import { GoSearch } from "react-icons/go";
+import queryString from "query-string";
 import CatalogItem from "./catalog-item";
 import './catalog.css'
 
@@ -12,6 +13,7 @@ class Catalog extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchTerm: "",
       courseList: [],
       per_page: 1,
       max_page: 1,
@@ -82,7 +84,6 @@ class Catalog extends Component {
         />
       );
     }
-    console.log(items);
     return <Pagination className="text-center mt-3">{items}</Pagination>;
   }
 
@@ -95,20 +96,24 @@ class Catalog extends Component {
     );
   }
   loadPage() {
-    console.log(this.state.current_page);
-    fetch(`http://localhost:3000/api/courses?page=${this.state.current_page}`, {
+    let url = `http://localhost:3000/api/courses?page=${this.state.current_page}`;
+    let searchQuery = queryString.parse(this.props.location.search)["srch-term"];
+    if (searchQuery) {
+      url = `http://localhost:3000/api/courses/search?query=${searchQuery}&page=${this.state.current_page}`
+      this.setState({ searchTerm: searchQuery })
+    }
+
+    fetch(url, {
       method: "GET",
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         this.setState({
           courseList: data.courses,
           current_page: data.page,
           per_page: data.per_page,
           max_page: data.pages,
         });
-        console.log(this.state.courseList);
       })
       .catch((error) => console.log(error));
   }
@@ -141,6 +146,7 @@ class Catalog extends Component {
                   name="srch-term"
                   id="srch-term"
                   type="text"
+                  defaultValue={this.state.searchTerm}
                 />
                 <div className="input-group-btn">
                   <button className="btn btn-default search-button" type="submit">

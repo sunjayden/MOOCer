@@ -22,6 +22,8 @@
 .search-button {
 	color: #02b3e4;
 	font-size: 1rem;
+	float: right;
+	margin-top: -42px;
 }
 
 .search-input {
