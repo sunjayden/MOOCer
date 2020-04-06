@@ -17,11 +17,6 @@ const CourseSchema = mongoose.Schema({
 		points: [String],
 		title: String
 	}],
-	// projects: [{
-	// 	_id: false,
-	// 	description: String,
-	// 	name: String
-	// }],
 	prerequisite: String,
 	shortSummary: String,
 	url: String,

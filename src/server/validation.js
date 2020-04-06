@@ -33,7 +33,26 @@ const loginValidation = (data) => {
 	return schema.validate(data);
 };
 
+// Review Validation
+const reviewValidation = (data) => {
+	const schema = Joi.object({
+		comment: Joi.string()
+			.required(),
+		rating: Joi.number()
+			.min(1)
+			.max(5)
+			.required(),
+		course: Joi.string()
+			.required(),
+		rated_by: Joi.string()
+			.required()
+	});
+
+	return schema.validate(data);
+};
+
 module.exports = {
 	registerValidation,
-	loginValidation
+	loginValidation,
+	reviewValidation
 };

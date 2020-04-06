@@ -9,6 +9,7 @@ const os = require('os');
 // Import routes
 const authRoute = require('./routes/auth');
 const courseRoute = require('./routes/course');
+const reviewRoute = require('./routes/review');
 
 // Import environment variable
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 // Route Middlewares
 app.use('/api/user', authRoute);
 app.use('/api/courses', courseRoute);
+app.use('/api/reviews', reviewRoute);
 
 app.use(express.static('dist'));
 
