@@ -21,7 +21,19 @@ router.get('/search', async (req, res) => {
 		}).skip((perPage * page) - perPage)
 		.limit(perPage);
 
-	const numOfCourses = await Course.countDocuments();
+	const numOfCourses = await Course.find({
+		$text: {
+			$search: query
+		}
+	}, {
+		score: {
+			$meta: 'textScore'
+		}
+	}).sort({
+		score: {
+			$meta: 'textScore'
+		}
+	}).countDocuments();
 
 	return res.send({
 		courses: courses,
@@ -35,11 +47,21 @@ router.get('/search', async (req, res) => {
 router.get('/', async (req, res) => {
 	const perPage = parseInt(req.query.perPage) || 10;
 	const page = parseInt(req.query.page) || 1;
+	const free = req.query.free
+	const level = req.query.level
 
-	const courses = await Course.find()
+	var filter = {}
+	if (free) {
+		filter.isFreeCourse = free;
+	}
+	if (level) {
+		filter.level = level.toLowerCase();
+	}
+
+	const courses = await Course.find(filter, '-reviews')
 		.skip((perPage * page) - perPage)
 		.limit(perPage);
-	const numOfCourses = await Course.countDocuments();
+	const numOfCourses = await Course.find(filter, '-reviews').countDocuments();
 
 	return res.send({
 		courses: courses,

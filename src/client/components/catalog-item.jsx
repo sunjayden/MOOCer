@@ -12,7 +12,8 @@ class CatalogItem extends Component {
     let level =
       this.props.courseDetail.level.slice(0, 1).toUpperCase() +
       this.props.courseDetail.level.slice(1);
-    let price = this.props.courseDetail.isFreeCourse == true ? "Free" : "";
+    let price = this.props.courseDetail.isFreeCourse == true ? " | Free" : " | Paid";
+    let duration = this.props.courseDetail.duration ? " | " + this.props.courseDetail.duration : "";
 
     return (
       <Media className="course-card">
@@ -27,7 +28,7 @@ class CatalogItem extends Component {
             {this.props.courseDetail.shortSummary}
           </p>
           <p className="course-meta">
-            {level} | {this.props.courseDetail.duration} {" | " + price}
+            {level} {duration} {price}
           </p>
           <div className="text-right">
             {/* <Redirect

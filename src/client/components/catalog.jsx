@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Pagination, Form } from "react-bootstrap"
+import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap"
 import { GoSearch } from "react-icons/go";
+import Select from 'react-select';
 import queryString from "query-string";
 import CatalogItem from "./catalog-item";
 import './catalog.css'
@@ -18,6 +19,8 @@ class Catalog extends Component {
       per_page: 1,
       max_page: 1,
       current_page: 0,
+      selectedCourseOption: null,
+      selectedSkillOption: null,
     };
   }
 
@@ -95,12 +98,26 @@ class Catalog extends Component {
       () => this.loadPage()
     );
   }
+
   loadPage() {
     let url = `http://localhost:3000/api/courses?page=${this.state.current_page}`;
+
     let searchQuery = queryString.parse(this.props.location.search)["srch-term"];
     if (searchQuery) {
       url = `http://localhost:3000/api/courses/search?query=${searchQuery}&page=${this.state.current_page}`
       this.setState({ searchTerm: searchQuery })
+    }
+
+    if (this.state.selectedCourseOption) {
+      console.log(this.state.selectedCourseOption);
+      let free = this.state.selectedCourseOption.value == "Free courses" ? true : false;
+      url = url + "&free=" + free;
+      console.log(url);
+    }
+
+    if (this.state.selectedLevelOption) {
+      let level = this.state.selectedLevelOption.value;
+      url = url + "&level=" + level;
     }
 
     fetch(url, {
@@ -130,7 +147,32 @@ class Catalog extends Component {
     });
   }
 
+  handleCourseChange = selectedCourseOption => {
+    this.setState({ selectedCourseOption });
+  };
+
+  handleLevelChange = selectedLevelOption => {
+    this.setState({ selectedLevelOption });
+  };
+
+  submitFilter = () => {
+    this.loadPage();
+  }
+
   render() {
+    const courseOptions = [
+      { value: 'Free Courses', label: 'Free Courses' },
+      { value: 'Paid Courses', label: 'Paid Courses' },
+    ];
+
+    const levelOptions = [
+      { value: 'Beginner', label: 'Beginner' },
+      { value: 'Intermediate', label: 'Intermediate' },
+      { value: 'Advanced', label: 'Advanced' },
+    ];
+
+    const { selectedCourseOption, selectedLevelOption, submitFilter } = this.state;
+
     return (
       <Container fluid className="catalog-container">
         <h1 className="catalog-title">
@@ -162,6 +204,26 @@ class Catalog extends Component {
           <Row>
             <Col md={3}>
               <h4 className="filter-title">FILTER BY</h4>
+              <Select
+                className="option"
+                value={selectedCourseOption}
+                onChange={this.handleCourseChange}
+                options={courseOptions}
+                placeholder="COURSE TYPE"
+              />
+
+              <Select
+                className="option"
+                value={selectedLevelOption}
+                onChange={this.handleLevelChange}
+                options={levelOptions}
+                placeholder="SKILL LEVEL"
+              />
+
+              <Button className="btn btn-default filter-button" type="submit" onClick={this.submitFilter}>
+                APPLY
+              </Button>
+
             </Col>
             <Col md={9}>
               <Container className="course-table">
