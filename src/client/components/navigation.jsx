@@ -1,63 +1,45 @@
 import React, { Component } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import LoginRegisterModal from "./login-register";
+import { Button, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import Logo from "./imgs/logo.png";
+import "./navigation.css"
 
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      modalShow: false,
-    };
   }
-  // this.state = {
-  //   modalShow: false,
-  // };
+
   render() {
     return (
-      <Navbar
-        className="Nav w-100 h-100 text-white"
-        style={{ backgroundColor: "#47646f" }}
-        variant="dark"
-      >
-        <Navbar.Brand href="/">MOOCer</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/about">About</Nav.Link>
-          <Nav.Link href="/catalog">Catalog</Nav.Link>
-        </Nav>
-
-        <Form className="navbar-form" role="search">
-          <div className="input-group add-on">
-            <input
-              className="form-control"
-              placeholder="Search"
-              name="srch-term"
-              id="srch-term"
-              type="text"
-            />
-            <div className="input-group-btn">
-              <button className="btn btn-default" type="submit">
-                <i className="glyphicon glyphicon-search"></i>
-              </button>
-            </div>
-            <Button
-              // className="btn btn-secondary"
-              variant="outline-light"
-              onClick={() => this.setState({ modalShow: true })}
-            >
-              Login
-            </Button>
-            <LoginRegisterModal
-              show={this.state.modalShow}
-              onHide={() => this.setState({ modalShow: false })}
-            />
-          </div>
-        </Form>
+      <Navbar collapseOnSelect bg="light" variant="light">
+        <Navbar.Brand href="#home">
+          <img
+            alt=""
+            src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{' '}
+          MOOCer
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link href="/about">Overview</Nav.Link>
+            <NavDropdown title="Programs" id="collasible-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <div className="vl"></div>
+          <Button className="login-button" variant="outline-primary">Log In</Button>
+          <Button className="signup-button">Sign Up</Button>
+        </Navbar.Collapse>
       </Navbar>
     );
   }
 }
+
 export default Navigation;
