@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
+import { Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
 import Nav from "./navigation";
 import Lessons from "./lesson";
 import Reviews from "./reviews";
@@ -98,9 +98,6 @@ class CourseDetail extends Component {
 
   render() {
     let freeCourse = this.state.isFreeCourse == true ? "Free " : "";
-    let platform =
-      this.state.platform.slice(0, 1).toUpperCase() +
-      this.state.platform.slice(1);
 
     let captalize = (str) => {
       return str.slice(0, 1).toUpperCase() + str.slice(1);

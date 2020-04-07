@@ -1,22 +1,10 @@
 import React, { Component } from "react";
 import StarRatings from "react-star-ratings";
 import {
-  ListGroup,
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  Alert,
+  ListGroup, Container, Row, Col, Card, Form, Button, Alert,
 } from "react-bootstrap";
 import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
-
-const flexContainer = {
-  display: "flex",
-  flexDirection: "row",
-  padding: 0,
-};
+import "./reviews.css"
 
 class Reviews extends Component {
   constructor(props) {
@@ -74,22 +62,20 @@ class Reviews extends Component {
   renderReviewCardList() {
     return this.state.reviews.map((review, index) => {
       return (
-        // console.log(review)
         <ListGroup.Item key={index} className="border-bottom-0">
           <Card
-            className="overflow-auto"
-            style={{ width: "20rem", height: "18rem" }}
+            className="overflow-auto sing-card"
           >
             <Card.Body>
               <Card.Title>
                 <Container>
                   <Row>
-                    <Col xs={4}>{review.rated_by}</Col>
-                    <Col xs={8} className="inline-block float-right">
+                    <Col xs={5} className="author">{review.rated_by}</Col>
+                    <Col xs={7} className="inline-block float-right">
                       <StarRatings
                         className="ml-auto"
                         rating={review.rating}
-                        starRatedColor="yellow"
+                        starRatedColor="#FEBF00"
                         starDimension="23px"
                         starSpacing="1px"
                         numberOfStars={5}
@@ -178,7 +164,7 @@ class Reviews extends Component {
               <StarRatings
                 className="float-right"
                 rating={this.state.avgRating}
-                starRatedColor="yellow"
+                starRatedColor="#FEBF00"
                 starDimension="23px"
                 starSpacing="1px"
                 numberOfStars={5}
@@ -189,7 +175,7 @@ class Reviews extends Component {
         </Row>
         <Row>
           <Col cs={12} className="pl-5">
-            <h6 onClick={this.toggleReviewModal}>Leave a review</h6>
+            <button className="control-btn" onClick={this.toggleReviewModal}>Leave a review</button>
             {this.state.showGood ? (
               <Alert variant="success">Thanks for the review!</Alert>
             ) : null}
@@ -207,7 +193,7 @@ class Reviews extends Component {
                           className="ml-auto"
                           rating={this.state.rating}
                           changeRating={this.changeRating}
-                          starRatedColor="yellow"
+                          starRatedColor="#FEBF00"
                           starDimension="30px"
                           starSpacing="2px"
                           numberOfStars={5}
@@ -251,8 +237,7 @@ class Reviews extends Component {
         <Row className="overflow-auto">
           <Col xs={12}>
             <ListGroup
-              className="borderless"
-              style={flexContainer}
+              className="borderless card-container"
               variant="flush"
             >
               {this.renderReviewCardList()}
@@ -260,20 +245,22 @@ class Reviews extends Component {
           </Col>
         </Row>
         <Row className="mb-5">
-          <Col xs={6} className="pl-5">
+          <Col xs={6} className="pl-5 previous-btn">
             <div
               style={{
                 visibility: this.state.currentPage > 1 ? "visible" : "hidden",
               }}
             >
               <ArrowLeft
+                className="left-arrow"
                 onClick={() => this.getReviewPage(this.state.currentPage - 1)}
               />
-              <h6
+              <button
+                className="control-btn"
                 onClick={() => this.getReviewPage(this.state.currentPage - 1)}
               >
                 Previous
-              </h6>
+              </button>
             </div>
           </Col>
           <Col xs={6} className="pr-5">
@@ -287,13 +274,15 @@ class Reviews extends Component {
                 }}
               >
                 <ArrowRight
+                  className="right-arrow"
                   onClick={() => this.getReviewPage(this.state.currentPage + 1)}
                 />
-                <h6
+                <button
+                  className="control-btn"
                   onClick={() => this.getReviewPage(this.state.currentPage + 1)}
                 >
                   Next
-                </h6>
+                </button>
               </div>
             </Row>
           </Col>
