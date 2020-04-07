@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import StarRatings from "react-star-ratings";
-import { ListGroup, Container, Row, Col, Card } from "react-bootstrap";
+import {
+  ListGroup,
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Alert,
+} from "react-bootstrap";
 import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
 
 const flexContainer = {
@@ -10,8 +19,6 @@ const flexContainer = {
 };
 
 class Reviews extends Component {
-  _isMounted = false;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -21,10 +28,15 @@ class Reviews extends Component {
       currentPage: 1,
       maxPage: 1,
       avgRating: 0,
+      reviewModal: false,
+      rating: 0,
+      comment: "",
+      username: "Frank",
+      showGood: false,
+      showbad: false,
     };
   }
   componentDidMount() {
-    this._isMounted = true;
     this.loadPage();
   }
 
@@ -45,20 +57,18 @@ class Reviews extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (this._isMounted) {
+        this.setState({
+          reviews: data.reviews,
+          // currentPage: data.page,
+          maxPage: data.pages,
+        });
+        if (data.avg_rating != null) {
           this.setState({
-            reviews: data.reviews,
-            // currentPage: data.page,
-            maxPage: data.pages,
             avgRating: data.avg_rating,
           });
         }
       })
       .catch((error) => console.log(error));
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
   }
 
   renderReviewCardList() {
@@ -96,6 +106,65 @@ class Reviews extends Component {
       );
     });
   }
+  toggleReviewModal = () => {
+    this.setState((state) => ({
+      reviewDiv: !state.reviewDiv,
+    }));
+  };
+  dismiss5Success = () => {
+    setTimeout(() => {
+      this.setState({ showGood: false });
+    }, 5000);
+  };
+  dismiss5Warning = () => {
+    setTimeout(() => {
+      this.setState({ showBad: false });
+    }, 5000);
+  };
+  sumbitReview() {
+    console.log("in submit");
+
+    if (this.state.rating > 0) {
+      let url = `http://localhost:3000/api/reviews?courseId=${this.state.courseId}`;
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          course: `${this.state.courseId}`,
+          rating: `${this.state.rating}`,
+          comment: `${this.state.comment}`,
+          rated_by: `${this.state.username}`,
+        }),
+      };
+      fetch(url, requestOptions)
+        .then(async (response) => {
+          this.setState({
+            showGood: true,
+          });
+          this.dismiss5Success();
+          this.toggleReviewModal();
+          this.loadPage();
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+    } else {
+      this.setState({
+        showBad: true,
+      });
+      this.dismiss5Warning();
+    }
+  }
+  changeRating = (newRating) => {
+    this.setState({
+      rating: newRating,
+    });
+  };
+  changeReview = (text) => {
+    this.setState({
+      comment: text.target.value,
+    });
+  };
 
   render() {
     return (
@@ -120,7 +189,63 @@ class Reviews extends Component {
         </Row>
         <Row>
           <Col cs={12} className="pl-5">
-            <h6>Leave a review</h6>
+            <h6 onClick={this.toggleReviewModal}>Leave a review</h6>
+            {this.state.showGood ? (
+              <Alert variant="success">Thanks for the review!</Alert>
+            ) : null}
+            {this.state.showBad ? (
+              <Alert variant="danger">Must select a rating!</Alert>
+            ) : null}
+
+            {this.state.reviewDiv ? (
+              <Container>
+                <Form>
+                  <Form.Group controlId="reviewText">
+                    <Row className="align-items-center justify-content-center">
+                      <Col xs={12}>
+                        <StarRatings
+                          className="ml-auto"
+                          rating={this.state.rating}
+                          changeRating={this.changeRating}
+                          starRatedColor="yellow"
+                          starDimension="30px"
+                          starSpacing="2px"
+                          numberOfStars={5}
+                          name="rating"
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        <Form.Control
+                          as="textarea"
+                          size="lg"
+                          rows="5"
+                          className="mt-3 mb-3"
+                          onChange={this.changeReview}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="justify-content-end">
+                      <Button
+                        className="mr-3"
+                        variant="primary"
+                        onClick={() => this.sumbitReview()}
+                      >
+                        Submit
+                      </Button>
+                      <Button
+                        className="mr-3"
+                        variant="secondary"
+                        onClick={this.toggleReviewModal}
+                      >
+                        Cancel
+                      </Button>
+                    </Row>
+                  </Form.Group>
+                </Form>
+              </Container>
+            ) : null}
           </Col>
         </Row>
         <Row className="overflow-auto">
