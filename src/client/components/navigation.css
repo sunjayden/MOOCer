@@ -23,6 +23,11 @@
 	border-radius: .2rem;
 }
 
+.signout-button {
+	margin-right: 24px;
+	border-radius: .2rem;
+}
+
 .nav-button {
 	padding: 0;
 }

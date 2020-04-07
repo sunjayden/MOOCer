@@ -3,14 +3,12 @@ import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap"
 import { GoSearch } from "react-icons/go";
 import Select from 'react-select';
 import queryString from "query-string";
+import Nav from "./navigation";
 import CatalogItem from "./catalog-item";
+import { VerifyToken } from "./auth"
 import './catalog.css'
 
 class Catalog extends Component {
-  componentDidMount() {
-    this.loadPage();
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +20,13 @@ class Catalog extends Component {
       selectedCourseOption: null,
       selectedSkillOption: null,
     };
+  }
+
+  componentDidMount() {
+    if (!VerifyToken()) {
+      return this.props.history.push("/");
+    }
+    this.loadPage();
   }
 
   renderPagination() {
@@ -109,10 +114,8 @@ class Catalog extends Component {
     }
 
     if (this.state.selectedCourseOption) {
-      console.log(this.state.selectedCourseOption);
       let free = this.state.selectedCourseOption.value == "Free courses" ? true : false;
       url = url + "&free=" + free;
-      console.log(url);
     }
 
     if (this.state.selectedLevelOption) {
@@ -174,68 +177,71 @@ class Catalog extends Component {
     const { selectedCourseOption, selectedLevelOption, submitFilter } = this.state;
 
     return (
-      <Container fluid className="catalog-container">
-        <h1 className="catalog-title">
-          Course Catalog
+      <>
+        <Nav />
+        <Container fluid className="catalog-container">
+          <h1 className="catalog-title">
+            Course Catalog
         </h1>
-        <Row>
-          <Col md={{ span: 8, offset: 2 }}>
-            <Form className="search-form" role="search">
-              <div className="input-group add-on">
-                <input
-                  className="form-control search-input"
-                  placeholder="Search"
-                  name="srch-term"
-                  id="srch-term"
-                  type="text"
-                  defaultValue={this.state.searchTerm}
-                />
-                <div className="input-group-btn">
-                  <button className="btn btn-default search-button" type="submit">
-                    <GoSearch />
-                  </button>
-                </div>
-              </div>
-            </Form>
-          </Col>
-        </Row>
-
-        <Container className="content">
           <Row>
-            <Col md={3}>
-              <h4 className="filter-title">FILTER BY</h4>
-              <Select
-                className="option"
-                value={selectedCourseOption}
-                onChange={this.handleCourseChange}
-                options={courseOptions}
-                placeholder="COURSE TYPE"
-              />
-
-              <Select
-                className="option"
-                value={selectedLevelOption}
-                onChange={this.handleLevelChange}
-                options={levelOptions}
-                placeholder="SKILL LEVEL"
-              />
-
-              <Button className="btn btn-default filter-button" type="submit" onClick={this.submitFilter}>
-                APPLY
-              </Button>
-
-            </Col>
-            <Col md={9}>
-              <Container className="course-table">
-                {this.renderTableData()}
-              </Container>
-              <Container className="pagination-container">
-                {this.renderPagination()}
-              </Container>
+            <Col md={{ span: 8, offset: 2 }}>
+              <Form className="search-form" role="search">
+                <div className="input-group add-on">
+                  <input
+                    className="form-control search-input"
+                    placeholder="Search"
+                    name="srch-term"
+                    id="srch-term"
+                    type="text"
+                    defaultValue={this.state.searchTerm}
+                  />
+                  <div className="input-group-btn">
+                    <button className="btn btn-default search-button" type="submit">
+                      <GoSearch />
+                    </button>
+                  </div>
+                </div>
+              </Form>
             </Col>
           </Row>
+
+          <Container className="content">
+            <Row>
+              <Col md={3}>
+                <h4 className="filter-title">FILTER BY</h4>
+                <Select
+                  className="option"
+                  value={selectedCourseOption}
+                  onChange={this.handleCourseChange}
+                  options={courseOptions}
+                  placeholder="COURSE TYPE"
+                />
+
+                <Select
+                  className="option"
+                  value={selectedLevelOption}
+                  onChange={this.handleLevelChange}
+                  options={levelOptions}
+                  placeholder="SKILL LEVEL"
+                />
+
+                <Button className="btn btn-default filter-button" type="submit" onClick={this.submitFilter}>
+                  APPLY
+              </Button>
+
+              </Col>
+              <Col md={9}>
+                <Container className="course-table">
+                  {this.renderTableData()}
+                </Container>
+                <Container className="pagination-container">
+                  {this.renderPagination()}
+                </Container>
+              </Col>
+            </Row>
+          </Container>
         </Container>
-      </Container>
+      </>
     );
   }
 }

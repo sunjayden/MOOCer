@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Form, Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
+import Nav from "./navigation";
 import Lessons from "./lesson";
 import Reviews from "./reviews";
+import { VerifyToken } from "./auth"
 
 class CourseDetail extends Component {
   constructor(props) {
@@ -53,7 +55,12 @@ class CourseDetail extends Component {
       courseid: "",
     };
   }
+
   componentDidMount() {
+    if (!VerifyToken()) {
+      return this.props.history.push("/");
+    }
+
     const handle = this.props.match.params.id;
     fetch(`http://localhost:3000/api/courses/${handle}`)
       .then((res) => res.json())
@@ -79,6 +86,7 @@ class CourseDetail extends Component {
         }));
       });
   }
+
   loadMoreReview(pageNumber) {
     this.setState(
       {
@@ -87,7 +95,7 @@ class CourseDetail extends Component {
       () => this.loadPage()
     );
   }
-  loadReview() {}
+
   render() {
     let freeCourse = this.state.isFreeCourse == true ? "Free " : "";
     let platform =
@@ -99,85 +107,88 @@ class CourseDetail extends Component {
     };
 
     return (
-      <Container className="align-items-center justify-content-center align-middle">
-        <Row>
-          <Col className="summary mt-5" xs={12}>
-            <Jumbotron
-              style={{
-                backgroundImage:
-                  "url(" +
-                  "https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" +
-                  ")",
-                backgroundSize: "cover",
-              }}
-            >
-              <h1>{this.state.title}</h1>
-              <p style={{ color: "#47646f" }}>{this.state.subtitle}</p>
-              <Button
-                className="courseLinkButton mt-2"
-                onClick={(event) => {
-                  event.preventDefault();
-                  window.open(this.state.url);
+      <>
+        <Nav />
+        <Container className="align-items-center justify-content-center align-middle">
+          <Row>
+            <Col className="summary mt-5" xs={12}>
+              <Jumbotron
+                style={{
+                  backgroundImage:
+                    "url(" +
+                    "https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" +
+                    ")",
+                  backgroundSize: "cover",
                 }}
               >
-                Start {freeCourse}Course
+                <h1>{this.state.title}</h1>
+                <p style={{ color: "#47646f" }}>{this.state.subtitle}</p>
+                <Button
+                  className="courseLinkButton mt-2"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    window.open(this.state.url);
+                  }}
+                >
+                  Start {freeCourse}Course
               </Button>
-            </Jumbotron>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="summary" xs={6}>
-            <h4 style={{ color: "#1e383c" }}>About this Course</h4>
-            <div className="summary-text">
-              <p style={{ color: "#47646f" }}>{this.state.summary}</p>
-            </div>
-          </Col>
+              </Jumbotron>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="summary" xs={6}>
+              <h4 style={{ color: "#1e383c" }}>About this Course</h4>
+              <div className="summary-text">
+                <p style={{ color: "#47646f" }}>{this.state.summary}</p>
+              </div>
+            </Col>
 
-          <Col className="details" xs={6}>
-            <Row className="section">
-              <Col xs={4}>
-                <h6>Course Cost</h6>
-                <h5>{freeCourse}</h5>
-              </Col>
-              <Col xs={4}>
-                <h6>Timeline</h6>
-                <h5>Aprox. {this.state.duration}</h5>
-              </Col>
-              <Col xs={4}>
-                <h6>Skill Level</h6>
-                <h5>{captalize(this.state.level)}</h5>
-              </Col>
-            </Row>
-            <Row className="prerequisite mt-3">
-              <Col xs={12}>
-                <h6>Prerequisite</h6>
-                <h5>{this.state.prerequisite.replace(/(<([^>]+)>)/gi, "")}</h5>
-              </Col>
-            </Row>
+            <Col className="details" xs={6}>
+              <Row className="section">
+                <Col xs={4}>
+                  <h6>Course Cost</h6>
+                  <h5>{freeCourse}</h5>
+                </Col>
+                <Col xs={4}>
+                  <h6>Timeline</h6>
+                  <h5>Aprox. {this.state.duration}</h5>
+                </Col>
+                <Col xs={4}>
+                  <h6>Skill Level</h6>
+                  <h5>{captalize(this.state.level)}</h5>
+                </Col>
+              </Row>
+              <Row className="prerequisite mt-3">
+                <Col xs={12}>
+                  <h6>Prerequisite</h6>
+                  <h5>{this.state.prerequisite.replace(/(<([^>]+)>)/gi, "")}</h5>
+                </Col>
+              </Row>
 
-            <Row className="platform mt-3">
-              <Col xs={12}>
-                <h6>Platform</h6>
-                <h5>{captalize(this.state.platform)}</h5>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+              <Row className="platform mt-3">
+                <Col xs={12}>
+                  <h6>Platform</h6>
+                  <h5>{captalize(this.state.platform)}</h5>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
 
-        <Row>
-          <Col className="lesson" xs={12}>
-            <Lessons lessonList={this.state.lessons} />
-          </Col>
-        </Row>
+          <Row>
+            <Col className="lesson" xs={12}>
+              <Lessons lessonList={this.state.lessons} />
+            </Col>
+          </Row>
 
-        <Row className="Reviews">
-          <Col xs={12}>
-            <div>
-              <Reviews courseId={this.props.match.params.id} />
-            </div>
-          </Col>
-        </Row>
-      </Container>
+          <Row className="Reviews">
+            <Col xs={12}>
+              <div>
+                <Reviews courseId={this.props.match.params.id} />
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </>
     );
   }
 }

@@ -1,15 +1,20 @@
 import React, { Component } from "react";
-import "./authentication.css";
+import { Redirect } from "react-router-dom";
+import {
+	getFromStorage, setInStorage
+} from "./storage";
+import { withRouter } from "react-router-dom";
 
 class RegisterBox extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: "",
+			firstName: "",
+			lastName: "",
 			email: "",
 			password: "",
 			errors: [],
-			pwdState: null
+			pwdState: null,
 		};
 	}
 
@@ -36,9 +41,14 @@ class RegisterBox extends Component {
 		});
 	}
 
-	onNameChange(e) {
-		this.setState({ name: e.target.value });
-		this.clearValidationErr("name");
+	onFirstNameChange(e) {
+		this.setState({ firstName: e.target.value });
+		this.clearValidationErr("firstName");
+	}
+
+	onLastNameChange(e) {
+		this.setState({ lastName: e.target.value });
+		this.clearValidationErr("lastName");
 	}
 
 	onEmailChange(e) {
@@ -59,34 +69,62 @@ class RegisterBox extends Component {
 		}
 	}
 
-	openPopup(e) {
-		console.log("Hello world!");
-	}
-
 	submitRegister(e) {
+		const {
+			firstName,
+			lastName,
+			email,
+			password,
+		} = this.state;
 
-		console.log(this.state);
-
-		if (this.state.name == "") {
-			this.showValidationErr("name", "Name Cannot be empty!");
+		if (firstName == "") {
+			this.showValidationErr("firstName", "First Name Cannot be empty!");
 		}
-		if (this.state.email == "") {
+		if (lastName == "") {
+			this.showValidationErr("lastName", "Last Name Cannot be empty!");
+		}
+		if (email == "") {
 			this.showValidationErr("email", "Email Cannot be empty!");
 		}
-		if (this.state.password == "") {
+		if (password == "") {
 			this.showValidationErr("password", "Password Cannot be empty!");
 		}
 
+		if (firstName && lastName && email && password) {
+			fetch("/api/user/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					firstName: firstName,
+					lastName: lastName,
+					email: email,
+					password: password
+				})
+			}).then(res => res.json())
+				.then(json => {
+					if (json.success) {
+						setInStorage("moocer", { token: json.token })
+						this.props.history.push("/catalog");
+					}
+				})
+		}
 	}
 
+
 	render() {
-		let nameErr = null,
+		let firstNameErr = null,
+			lastNameErr = null,
 			passwordErr = null,
 			emailErr = null;
 
 		for (let err of this.state.errors) {
-			if (err.elm == "name") {
-				nameErr = err.msg;
+			if (err.elm == "firstName") {
+				firstNameErr = err.msg;
+			}
+			if (err.elm == "lastName") {
+				lastNameErr = err.msg;
 			}
 			if (err.elm == "password") {
 				passwordErr = err.msg;
@@ -114,22 +152,37 @@ class RegisterBox extends Component {
 		return (
 			<div className="inner-container">
 				<div className="header">
-					Register
-		  </div>
+					Sign Up
+          </div>
 				<div className="box">
 
 					<div className="input-group">
-						<label htmlFor="name">Name</label>
+						<label htmlFor="first-name">First Name</label>
 						<input
 							type="text"
-							name="name"
+							name="firstName"
 							className="login-input"
-							placeholder="Name"
+							placeholder="First Name"
 							onChange={this
-								.onNameChange
+								.onFirstNameChange
 								.bind(this)} />
-						<small className="danger-error">{nameErr
-							? nameErr
+						<small className="danger-error">{firstNameErr
+							? firstNameErr
+							: ""}</small>
+					</div>
+
+					<div className="input-group">
+						<label htmlFor="last-name">Last Name</label>
+						<input
+							type="text"
+							name="lastName"
+							className="login-input"
+							placeholder="Last Name"
+							onChange={this
+								.onLastNameChange
+								.bind(this)} />
+						<small className="danger-error">{lastNameErr
+							? lastNameErr
 							: ""}</small>
 					</div>
 
@@ -182,13 +235,11 @@ class RegisterBox extends Component {
 					<button
 						type="button"
 						className="login-btn"
-						onClick={this
-							.openPopup
-							.bind(this)}>Register</button>
+						onClick={this.submitRegister.bind(this)}>Register</button>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default RegisterBox;
+export default withRouter(RegisterBox);

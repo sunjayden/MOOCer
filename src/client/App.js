@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Home from "./components/app-main";
 import About from "./components/about";
-import Nav from "./components/navigation";
 import Auth from "./components/authentication";
 import Footer from "./components/footer";
 import Catalog from "./components/catalog";
@@ -20,13 +19,11 @@ export default class App extends Component {
   }
 
   render() {
-    const { username } = this.state;
     return (
       <div className="App" style={{ width: "100%", height: "100%" }}>
-        <Nav />
         <BrowserRouter>
           <Switch>
-            <Route exact={true} path="/" exact component={Home} />
+            <Route exact={true} path="/" component={Home} />
             <Route exact={true} path="/auth" component={Auth} />
             <Route exact={true} path="/overview" component={About} />
             <Route exact={true} path="/course/:id" component={CourseDetail} />

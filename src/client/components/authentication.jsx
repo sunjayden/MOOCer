@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import queryString from "query-string";
 import LoginBox from "./loginbox";
 import RegisterBox from "./registerbox";
+import Nav from "./navigation";
 import "./authentication.css";
 
 class Authentication extends Component {
@@ -26,20 +27,23 @@ class Authentication extends Component {
 
 	render() {
 		return (
-			<div className="root-container">
-				<div className="box-controller">
-					<div className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")} onClick={this.showLoginBox.bind(this)}>
-						Login
+			<>
+				<Nav />
+				<div className="root-container">
+					<div className="box-controller">
+						<div className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")} onClick={this.showLoginBox.bind(this)}>
+							Login
 			  		</div>
-					<div className={"controller " + (this.state.isRegisterOpen ? "selected-controller" : "")} onClick={this.showRegisterBox.bind(this)}>
-						Register
+						<div className={"controller " + (this.state.isRegisterOpen ? "selected-controller" : "")} onClick={this.showRegisterBox.bind(this)}>
+							Sign Up
 			  		</div>
+					</div>
+					<div className="box-container">
+						{this.state.isLoginOpen && <LoginBox />}
+						{this.state.isRegisterOpen && <RegisterBox />}
+					</div>
 				</div>
-				<div className="box-container">
-					{this.state.isLoginOpen && <LoginBox />}
-					{this.state.isRegisterOpen && <RegisterBox />}
-				</div>
-			</div>
+			</>
 		);
 	}
 }

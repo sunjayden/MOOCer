@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 // import LoginRegisterModal from "./login-register";
@@ -15,11 +14,18 @@ import Col from "react-bootstrap/Col";
 import bg_img from "./imgs/bg.png";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Nav from "./navigation";
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {};
   render() {
     return (
+      <>
+      <Nav />
       <div
         style={{
           height: "100vh",
@@ -33,23 +39,10 @@ class Main extends Component {
         className="app"
       >
         <Container fluid className="main h-100">
-        
-
-          {/* <Row xs={12} className="main p-0 border-0" style={{ height: "86%" }}>
-            <Col className="p-0 border-0 h-100">
-              <Route exact path="/about" component={About} />
-              <Route exact path="/Catalog" component={Catalog} />
-              <Route exact path="/" component={Home} />
-            </Col>
-          </Row> */}
           <Home />
-          {/* <Row xs={12} style={{ height: "7%" }} className="p-0 border-0">
-            <Col className="h-100 flex-end" className="p-0">
-              <Footer />
-            </Col>
-          </Row> */}
         </Container>
       </div>
+      </>
     );
   }
 }
