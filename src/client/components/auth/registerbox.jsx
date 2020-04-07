@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import {
-	getFromStorage, setInStorage
-} from "./storage";
 import { withRouter } from "react-router-dom";
+
+import {
+	setInStorage
+} from "../utils/storage";
 
 class RegisterBox extends Component {
 	constructor(props) {

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
-import Nav from "./navigation";
+import Nav from "../header/navigation";
 import Lessons from "./lesson";
 import Reviews from "./reviews";
-import { VerifyToken } from "./auth"
+import { VerifyToken } from "../utils/auth"
 
 class CourseDetail extends Component {
   constructor(props) {

@@ -3,8 +3,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import HomeCarousel from "./home-carousel";
-import cat_img1 from "./imgs/catalog_1.png";
-import gs_img1 from "./imgs/get_started.png";
+import cat_img1 from "../imgs/catalog_1.png";
+import gs_img1 from "../imgs/get_started.png";
 // import LoginRegisterModal from "./login-register";
 
 class Home extends Component {

@@ -3,8 +3,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import profile_img1 from "./imgs/profile1.svg";
-import profile_img2 from "./imgs/profile2.svg";
+import profile_img1 from "../imgs/profile1.svg";
+import profile_img2 from "../imgs/profile2.svg";
 import Jumbotron from "react-bootstrap/Jumbotron";
 
 class About extends Component {

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import home_img1 from "./imgs/carousel1.png";
+import home_img1 from "../imgs/carousel1.png";
 import Row from "react-bootstrap/Row";
-import home_img2 from "./imgs/carousel2.png";
-import home_img3 from "./imgs/carousel3.png";
+import home_img2 from "../imgs/carousel2.png";
+import home_img3 from "../imgs/carousel3.png";
 import Carousel from "react-bootstrap/Carousel";
 
 class HomeCarousel extends Component {

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import "./app.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Home from "./components/app-main";
-import About from "./components/about";
-import Auth from "./components/authentication";
-import Footer from "./components/footer";
-import Catalog from "./components/catalog";
-import CourseDetail from "./components/course-detail";
-import Profile from "./components/profile";
+import Home from "./components/home/app-main";
+import About from "./components/about/about";
+import Auth from "./components/auth/authentication";
+import Footer from "./components/footer/footer";
+import Catalog from "./components/catalog/catalog";
+import CourseDetail from "./components/course/course-detail";
+import Profile from "./components/profile/profile";
+import "./app.css";
 
 export default class App extends Component {
   state = { username: null };

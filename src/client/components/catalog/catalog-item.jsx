@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Media } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./catalog-item.css";
+
+import "./catalog-item.module.css";
 
 class CatalogItem extends Component {
   constructor(props) {

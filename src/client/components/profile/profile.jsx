@@ -10,7 +10,7 @@ import {
   ListGroupItem,
 } from "react-bootstrap";
 import Experience from "./profile-experiences";
-import "./profile.css";
+import "./profile.module.css";
 
 class Profile extends Component {
   constructor(props) {

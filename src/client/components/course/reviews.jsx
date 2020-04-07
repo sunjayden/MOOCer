@@ -4,7 +4,8 @@ import {
   ListGroup, Container, Row, Col, Card, Form, Button, Alert,
 } from "react-bootstrap";
 import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
-import "./reviews.css"
+
+import "./reviews.module.css"
 
 class Reviews extends Component {
   constructor(props) {

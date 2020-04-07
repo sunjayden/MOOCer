@@ -3,10 +3,11 @@ import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap"
 import { GoSearch } from "react-icons/go";
 import Select from 'react-select';
 import queryString from "query-string";
-import Nav from "./navigation";
+
+import Nav from "../header/navigation";
 import CatalogItem from "./catalog-item";
-import { VerifyToken } from "./auth"
-import './catalog.css'
+import { VerifyToken } from "../utils/auth"
+import './catalog.module.css'
 
 class Catalog extends Component {
   constructor(props) {

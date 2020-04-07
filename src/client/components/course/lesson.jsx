@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Timeline, TimelineItem } from "vertical-timeline-component-for-react";
-import style from "./course-detail.module.css";
+
+import "./course-detail.module.css";
 
 class Lessons extends Component {
   state = {};

@@ -1,7 +1,5 @@
 import {
-	getFromStorage,
-	setInStorage,
-	deleteFromStorage
+	getFromStorage
 } from "./storage";
 
 export const VerifyToken = () => {

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import queryString from "query-string";
+
 import LoginBox from "./loginbox";
 import RegisterBox from "./registerbox";
-import Nav from "./navigation";
-import "./authentication.css";
+import Nav from "../header/navigation";
+import "./authentication.module.css";
 
 class Authentication extends Component {
 	constructor(props) {

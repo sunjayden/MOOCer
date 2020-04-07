@@ -1,11 +1,12 @@
 import React, { Component, useState } from "react";
-import { Button, Nav, Navbar, NavDropdown, Alert, Modal } from "react-bootstrap";
+import { Button, Nav, Navbar, NavDropdown, Modal } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
-import Logo from "./imgs/logo.png";
+
+// import Logo from "../imgs/logo.png";
 import {
-  getFromStorage, setInStorage, deleteFromStorage
-} from "./storage";
-import "./navigation.css"
+  getFromStorage, deleteFromStorage
+} from "../utils/storage";
+import "./navigation.module.css"
 
 class Navigation extends Component {
   constructor(props) {
