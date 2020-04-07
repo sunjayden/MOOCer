@@ -8,6 +8,7 @@ import Auth from "./components/authentication";
 import Footer from "./components/footer";
 import Catalog from "./components/catalog";
 import CourseDetail from "./components/course-detail";
+import Profile from "./components/profile";
 
 export default class App extends Component {
   state = { username: null };
@@ -28,6 +29,7 @@ export default class App extends Component {
             <Route exact={true} path="/overview" component={About} />
             <Route exact={true} path="/course/:id" component={CourseDetail} />
             <Route path="/catalog" component={Catalog} />
+            <Route paht="/user" component={Profile}></Route>
           </Switch>
         </BrowserRouter>
         <Footer />
