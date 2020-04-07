@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 		.skip((perPage * page) - perPage)
 		.limit(perPage)
 		.sort({date: -1});
-	const numOfReviews = await Review.countDocuments();
+	const numOfReviews = await Review.find({course: courseId}).countDocuments();
 
 	const allReviews = await Review.find({course: courseId}).select('rating -_id');
 
