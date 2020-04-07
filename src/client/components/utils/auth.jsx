@@ -9,3 +9,7 @@ export const VerifyToken = () => {
 	}
 	return true;
 }
+
+export const getToken = () => {
+	return getFromStorage("moocer");
+}
