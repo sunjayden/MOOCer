@@ -7,7 +7,7 @@ const cors = require('cors');
 const os = require('os');
 
 // Import routes
-const authRoute = require('./routes/auth');
+const authRoute = require('./routes/user');
 const courseRoute = require('./routes/course');
 const reviewRoute = require('./routes/review');
 

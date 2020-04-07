@@ -2,6 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const verify = require('./verifyToken');
 const {
 	registerValidation,
 	loginValidation
@@ -59,6 +60,16 @@ router.post('/login', async (req, res) => {
 		_id: user._id
 	}, process.env.TOKEN_SECRET);
 	res.header('Authorization', token).send({'success': true, 'token': token});
+});
+
+// Get Profile
+router.get('/', verify, async (req, res) => {
+	const profileExist = await User.findOne({
+		_id: req.user._id
+	}, '-password -__v');
+	if (!profileExist) return res.status(400).send('Profile not found');
+
+	res.send(profileExist);
 });
 
 module.exports = router;

@@ -43,8 +43,6 @@ const reviewValidation = (data) => {
 			.max(5)
 			.required(),
 		course: Joi.string()
-			.required(),
-		rated_by: Joi.string()
 			.required()
 	});
 

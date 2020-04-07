@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Review = require('../models/Review')
+const verify = require('./verifyToken');
 const {
 	reviewValidation,
 	courseIdValidation
@@ -18,7 +19,8 @@ router.get('/', async (req, res) => {
 	const reviews = await Review.find({course: courseId})
 		.skip((perPage * page) - perPage)
 		.limit(perPage)
-		.sort({date: -1});
+		.sort({date: -1})
+		.populate('rated_by', 'firstName lastName');
 	const numOfReviews = await Review.find({course: courseId}).countDocuments();
 
 	const allReviews = await Review.find({course: courseId}).select('rating -_id');
@@ -33,7 +35,7 @@ router.get('/', async (req, res) => {
 	})
 });
 
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
 	const {
 		error
 	} = reviewValidation(req.body);
@@ -43,7 +45,7 @@ router.post('/', async (req, res) => {
 		comment: req.body.comment,
 		rating: req.body.rating,
 		course: req.body.course,
-		rated_by: req.body.rated_by
+		rated_by: req.user._id
 	});
 
 	try {

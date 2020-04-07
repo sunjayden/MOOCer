@@ -17,7 +17,8 @@ const reviewSchema = new mongoose.Schema({
 		required: true
 	},
 	rated_by: {
-		type: String,
+		type: mongoose.Types.ObjectId,
+		ref: 'User',
 		required: true
 	},
 	created_at: {
