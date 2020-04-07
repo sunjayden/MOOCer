@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import { Button, Nav, Navbar, NavDropdown, Modal } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 
-// import Logo from "../imgs/logo.png";
+import Logo from "../imgs/logo.png";
 import {
   getFromStorage, deleteFromStorage
 } from "../utils/storage";
@@ -101,10 +101,10 @@ class Navigation extends Component {
         <Navbar.Brand href="/">
           <img
             alt=""
-            src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
+            src={Logo}
+            width="35"
+            height="35"
+            className="d-inline-block align-bottom"
           />{' '}
           MOOCer
         </Navbar.Brand>
