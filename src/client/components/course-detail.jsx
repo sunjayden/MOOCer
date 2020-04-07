@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
 import Lessons from "./lesson";
+import Reviews from "./reviews";
 
 class CourseDetail extends Component {
   constructor(props) {
@@ -21,7 +22,34 @@ class CourseDetail extends Component {
       summary: "",
       title: "",
       platform: "",
-      reviews: [],
+      review_page: 0,
+      reviews: {
+        reviews: [
+          {
+            _id: "5e8b70ed7ee00d6900695b58",
+            comment: "Great course",
+            rating: 5,
+            course: "5e8935b96eb291b24ab293d6",
+            rated_by: "Angela",
+            created_at: "2020-04-06T18:11:57.129Z",
+            __v: 0,
+          },
+          {
+            _id: "5e8b70d07ee00d6900695b57",
+            comment: "bad course",
+            rating: 1,
+            course: "5e8935b96eb291b24ab293d6",
+            rated_by: "Jayden Sun",
+            created_at: "2020-04-06T18:11:28.821Z",
+            __v: 0,
+          },
+        ],
+        limit: 5,
+        page: 1,
+        pages: 1,
+        total: 2,
+        avg_rating: 3,
+      },
       courseid: "",
     };
   }
@@ -51,7 +79,15 @@ class CourseDetail extends Component {
         }));
       });
   }
-
+  loadMoreReview(pageNumber) {
+    this.setState(
+      {
+        review_page: pageNumber,
+      },
+      () => this.loadPage()
+    );
+  }
+  loadReview() {}
   render() {
     let freeCourse = this.state.isFreeCourse == true ? "Free " : "";
     let platform =
@@ -60,13 +96,21 @@ class CourseDetail extends Component {
 
     let captalize = (str) => {
       return str.slice(0, 1).toUpperCase() + str.slice(1);
-    }
+    };
 
     return (
       <Container className="align-items-center justify-content-center align-middle">
         <Row>
           <Col className="summary mt-5" xs={12}>
-            <Jumbotron style={{ backgroundImage: 'url(' + 'https://mdbootstrap.com/img/Photos/Others/gradient1.jpg' + ')', backgroundSize: 'cover', }}>
+            <Jumbotron
+              style={{
+                backgroundImage:
+                  "url(" +
+                  "https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" +
+                  ")",
+                backgroundSize: "cover",
+              }}
+            >
               <h1>{this.state.title}</h1>
               <p style={{ color: "#47646f" }}>{this.state.subtitle}</p>
               <Button
@@ -128,7 +172,9 @@ class CourseDetail extends Component {
 
         <Row className="Reviews">
           <Col xs={12}>
-            <div></div>
+            <div>
+              <Reviews courseId={this.props.match.params.id} />
+            </div>
           </Col>
         </Row>
       </Container>

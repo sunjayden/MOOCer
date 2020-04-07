@@ -22,7 +22,7 @@ export default class App extends Component {
   render() {
     const { username } = this.state;
     return (
-      <div className="App">
+      <div className="App" style={{ width: "100%", height: "100%" }}>
         <Nav />
         <BrowserRouter>
           <Switch>
