@@ -145,7 +145,17 @@ router.get('/profile', verify, async (req, res) => {
 			path: 'profile.courses',
 			model: 'Course',
 			select: '_id title url image shortSummary'
-		});
+		})
+		.populate({
+			path: 'profile.in_progress',
+			model: 'Course',
+			select: '_id title url image shortSummary'
+		})
+		.populate({
+			path: 'profile.wish_list',
+			model: 'Course',
+			select: '_id title url image shortSummary'
+		})
 
 	res.send(user);
 });
