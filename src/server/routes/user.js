@@ -105,6 +105,7 @@ router.post('/profile', verify, async (req, res) => {
 		_id: req.user._id
 	});
 
+	console.log(req.body.firstName);
 	user.firstName = req.body.firstName;
 	user.lastName = req.body.lastName
 
