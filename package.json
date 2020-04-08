@@ -36,6 +36,8 @@
     "react-star-ratings": "^2.3.0",
     "react-timeline-scribble": "^1.0.14",
     "react-transition-group": "^4.3.0",
+    "sweetalert2": "^9.10.9",
+    "sweetalert2-react-content": "^3.0.1",
     "vertical-timeline-component-for-react": "^1.0.6"
   },
   "devDependencies": {

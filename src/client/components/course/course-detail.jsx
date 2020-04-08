@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, Container, Row, Col, Jumbotron, Dropdown } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 import Nav from "../header/navigation";
 import Lessons from "./lesson";
@@ -38,6 +40,8 @@ class CourseDetail extends Component {
     if (!VerifyToken()) {
       return this.props.history.push("/");
     }
+
+    window.scrollTo(0, 0);
 
     const token = getToken().token;
     this.setState({ token: token })
@@ -99,6 +103,7 @@ class CourseDetail extends Component {
   }
 
   changeStatus() {
+    const MySwal = withReactContent(Swal);
     const courseStatus = this.state.courseStatus;
     let newStatus = "inProgress"
     if (courseStatus == "Marked as Completed") {
@@ -121,8 +126,16 @@ class CourseDetail extends Component {
         if (data.success) {
           if (newStatus == "inProgress") {
             this.setState({ courseStatus: "Marked as Completed" })
+            return MySwal.fire({
+              title: <p>Woohoo! Start learning by navigating to the course link. </p>,
+              icon: 'info'
+            })
           } else {
             this.setState({ courseStatus: "Completed" })
+            return MySwal.fire({
+              title: <p>Congratulation! You have completed the course. </p>,
+              icon: 'success'
+            })
           }
         }
       });

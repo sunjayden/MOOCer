@@ -101,7 +101,7 @@ class Catalog extends Component {
       {
         current_page: pageNumber,
       },
-      () => this.loadPage()
+      () => {this.loadPage(); window.scrollTo(0, 0);}
     );
   }
 
