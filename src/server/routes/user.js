@@ -110,13 +110,11 @@ router.post('/profile', verify, async (req, res) => {
 
 	user.profile = {
 		title: req.body.title,
+		education: req.body.education,
 		location: req.body.location,
 		courses: user.profile.courses,
 		in_progress: user.profile.in_progress,
 		wish_list: user.profile.wish_list,
-		// courses: [
-		// 	"5e8935b96eb291b24ab293ce"
-		// ],
 		about: req.body.about,
 		skills: req.body.skills,
 		experiences: req.body.experiences
@@ -126,7 +124,7 @@ router.post('/profile', verify, async (req, res) => {
 		await user.save();
 		res.send({
 			'success': true,
-			'message': 'Profile saved'
+			'message': user
 		});
 	} catch (err) {
 		res.status(400).send({

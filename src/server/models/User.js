@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
 	title: String,
 	location: String,
+	education: String,
 	about: String,
 	skills: [{
 		type: String
