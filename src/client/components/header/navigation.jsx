@@ -1,11 +1,14 @@
 import React, { Component, useState } from "react";
-import { Button, Nav, Navbar, NavDropdown, Modal } from "react-bootstrap";
+import { Button, Nav, Navbar, NavDropdown, Modal, DropdownButton, MenuItem, Dropdown } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import { IoMdSettings, IoMdExit } from "react-icons/io";
+import { FaRegUserCircle, FaUser } from "react-icons/fa";
 
 import Logo from "../imgs/logo.png";
 import {
   getFromStorage, deleteFromStorage
 } from "../utils/storage";
+import SimpleMenu from "./settings-menu";
 import "./navigation.module.css"
 
 class Navigation extends Component {
@@ -50,25 +53,6 @@ class Navigation extends Component {
     }
 
     let LoggedInNav = () => {
-      return (
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link href="/overview">Overview</Nav.Link>
-            <Nav.Link href="/catalog">Course Catalog</Nav.Link>
-            <Nav.Link href="/overview">My Classroom</Nav.Link>
-          </Nav>
-          <div className="vl"></div>
-          <SignOutButton />
-        </Navbar.Collapse>
-      )
-    }
-
-    let signoutSubmit = () => {
-      this.setState({ loggedIn: false });
-      deleteFromStorage("moocer");
-    }
-
-    let SignOutButton = () => {
       const [show, setShow] = useState(false);
 
       const handleClose = () => {
@@ -78,9 +62,25 @@ class Navigation extends Component {
       const handleShow = () => setShow(true);
 
       return (
-        <>
-          <Button className="signout-button" onClick={handleShow}>Sign Out</Button>
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link href="/overview">Overview</Nav.Link>
+            <Nav.Link href="/catalog">Course Catalog</Nav.Link>
+            <Nav.Link href="/overview">My Classroom</Nav.Link>
+          </Nav>
+          <div className="vl"></div>
 
+          <DropdownButton
+            key={'down'}
+            id={`dropdown-button-drop-left`}
+            drop={'down'}
+            title={<IoMdSettings />}
+          >
+            <Dropdown.Item onClick={() => this.props.history.push("/portfolio")}><FaUser /> My Portfolio</Dropdown.Item>
+            <Dropdown.Item eventKey="2"><IoMdSettings /> Settings</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={handleShow}><IoMdExit /> Logout</Dropdown.Item>
+          </DropdownButton>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Sign Out</Modal.Title>
@@ -92,8 +92,13 @@ class Navigation extends Component {
               </Button>
             </Modal.Footer>
           </Modal>
-        </>
-      );
+        </Navbar.Collapse>
+      )
+    }
+
+    let signoutSubmit = () => {
+      this.setState({ loggedIn: false });
+      deleteFromStorage("moocer");
     }
 
     return (

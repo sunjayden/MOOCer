@@ -29,7 +29,7 @@ export default class App extends Component {
             <Route exact={true} path="/overview" component={About} />
             <Route exact={true} path="/course/:id" component={CourseDetail} />
             <Route path="/catalog" component={Catalog} />
-            <Route paht="/user" component={Profile}></Route>
+            <Route paht="/portfolio" component={Profile}></Route>
           </Switch>
         </BrowserRouter>
         <Footer />
