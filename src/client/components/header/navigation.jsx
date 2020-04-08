@@ -2,19 +2,13 @@ import React, { Component, useState } from "react";
 import { Button, Nav, Navbar, NavDropdown, Modal, DropdownButton, MenuItem, Dropdown } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { IoMdSettings, IoMdExit } from "react-icons/io";
-import { FaRegUserCircle, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 import Logo from "../imgs/logo.png";
-<<<<<<< HEAD
 import {
   getFromStorage, deleteFromStorage
 } from "../utils/storage";
-import SimpleMenu from "./settings-menu";
 import "./navigation.module.css"
-=======
-import { getFromStorage, deleteFromStorage } from "../utils/storage";
-import "./navigation.module.css";
->>>>>>> 844fbb424b36a2401356036c6b99c5f5ea7771b6
 
 class Navigation extends Component {
   constructor(props) {
@@ -64,29 +58,6 @@ class Navigation extends Component {
     };
 
     let LoggedInNav = () => {
-<<<<<<< HEAD
-=======
-      return (
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link href="/overview">Overview</Nav.Link>
-            <Nav.Link href="/catalog">Course Catalog</Nav.Link>
-            <Nav.Link href="/overview">My Classroom</Nav.Link>
-            <Nav.Link href="/user">Profile</Nav.Link>
-          </Nav>
-          <div className="vl"></div>
-          <SignOutButton />
-        </Navbar.Collapse>
-      );
-    };
-
-    let signoutSubmit = () => {
-      this.setState({ loggedIn: false });
-      deleteFromStorage("moocer");
-    };
-
-    let SignOutButton = () => {
->>>>>>> 844fbb424b36a2401356036c6b99c5f5ea7771b6
       const [show, setShow] = useState(false);
 
       const handleClose = () => {
@@ -96,7 +67,6 @@ class Navigation extends Component {
       const handleShow = () => setShow(true);
 
       return (
-<<<<<<< HEAD
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link href="/overview">Overview</Nav.Link>
@@ -104,12 +74,6 @@ class Navigation extends Component {
             <Nav.Link href="/overview">My Classroom</Nav.Link>
           </Nav>
           <div className="vl"></div>
-=======
-        <>
-          <Button className="signout-button" onClick={handleShow}>
-            Sign Out
-          </Button>
->>>>>>> 844fbb424b36a2401356036c6b99c5f5ea7771b6
 
           <DropdownButton
             key={'down'}
@@ -133,7 +97,6 @@ class Navigation extends Component {
               </Button>
             </Modal.Footer>
           </Modal>
-<<<<<<< HEAD
         </Navbar.Collapse>
       )
     }
@@ -142,11 +105,6 @@ class Navigation extends Component {
       this.setState({ loggedIn: false });
       deleteFromStorage("moocer");
     }
-=======
-        </>
-      );
-    };
->>>>>>> 844fbb424b36a2401356036c6b99c5f5ea7771b6
 
     return (
       <Navbar collapseOnSelect bg="light" variant="light">
