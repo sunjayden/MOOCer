@@ -14,7 +14,7 @@ import Experience from "./profile-experiences";
 import "./profile.module.css";
 import Chip from "@material-ui/core/Chip";
 import Nav from "../header/navigation";
-import { Pencil } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 class Profile extends Component {
   constructor(props) {
@@ -227,11 +227,9 @@ class Profile extends Component {
         <Nav />
         <Container>
           <Row className="justify-content-end mr-3 mt-3">
-            <Button
-              style={{ backgroundColor: "#8ea6b2", outlineColor: "#8ea6b2" }}
-            >
-              Edit Profile <Pencil />
-            </Button>
+            <Link to={"/edit"} style={{ color: "#8ea6b2" }}>
+              Edit Portfolio
+            </Link>
           </Row>
           <Row>
             <Col xs={12} className="mb-0 mt-4">

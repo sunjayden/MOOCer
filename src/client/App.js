@@ -8,6 +8,7 @@ import Footer from "./components/footer/footer";
 import Catalog from "./components/catalog/catalog";
 import CourseDetail from "./components/course/course-detail";
 import Profile from "./components/profile/profile";
+import EditProfile from "./components/profile/edit-profile";
 import "./app.css";
 
 export default class App extends Component {
@@ -29,7 +30,8 @@ export default class App extends Component {
             <Route exact={true} path="/overview" component={About} />
             <Route exact={true} path="/course/:id" component={CourseDetail} />
             <Route path="/catalog" component={Catalog} />
-            <Route paht="/portfolio" component={Profile}></Route>
+            <Route path="/portfolio" component={Profile} />
+            <Route path="/edit" component={EditProfile} />
           </Switch>
         </BrowserRouter>
         <Footer />
