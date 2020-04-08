@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import StarRatings from "react-star-ratings";
 import {
-  ListGroup, Container, Row, Col, Card, Form, Button, Alert,
+  ListGroup,
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Alert,
 } from "react-bootstrap";
 import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
+import { getToken } from "../utils/auth.jsx";
 
-import "./reviews.module.css"
+import "./reviews.module.css";
 
 class Reviews extends Component {
   constructor(props) {
@@ -64,14 +72,14 @@ class Reviews extends Component {
     return this.state.reviews.map((review, index) => {
       return (
         <ListGroup.Item key={index} className="border-bottom-0">
-          <Card
-            className="overflow-auto sing-card"
-          >
+          <Card className="overflow-auto sing-card">
             <Card.Body>
               <Card.Title>
                 <Container>
                   <Row>
-                    <Col xs={5} className="author">{review.rated_by}</Col>
+                    <Col xs={5} className="author">
+                      {review.rated_by.firstName}
+                    </Col>
                     <Col xs={7} className="inline-block float-right">
                       <StarRatings
                         className="ml-auto"
@@ -109,20 +117,24 @@ class Reviews extends Component {
     }, 5000);
   };
   sumbitReview() {
-    console.log("in submit");
+    // console.log("in submit");
+    // console.log(getToken().token);
 
     if (this.state.rating > 0) {
       let url = `http://localhost:3000/api/reviews?courseId=${this.state.courseId}`;
       const requestOptions = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: getToken().token,
+        },
         body: JSON.stringify({
           course: `${this.state.courseId}`,
           rating: `${this.state.rating}`,
           comment: `${this.state.comment}`,
-          rated_by: `${this.state.username}`,
         }),
       };
+
       fetch(url, requestOptions)
         .then(async (response) => {
           this.setState({
@@ -176,7 +188,9 @@ class Reviews extends Component {
         </Row>
         <Row>
           <Col cs={12} className="pl-5">
-            <button className="control-btn" onClick={this.toggleReviewModal}>Leave a review</button>
+            <button className="control-btn" onClick={this.toggleReviewModal}>
+              Leave a review
+            </button>
             {this.state.showGood ? (
               <Alert variant="success">Thanks for the review!</Alert>
             ) : null}
@@ -237,10 +251,7 @@ class Reviews extends Component {
         </Row>
         <Row className="overflow-auto">
           <Col xs={12}>
-            <ListGroup
-              className="borderless card-container"
-              variant="flush"
-            >
+            <ListGroup className="borderless card-container" variant="flush">
               {this.renderReviewCardList()}
             </ListGroup>
           </Col>
