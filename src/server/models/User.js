@@ -15,10 +15,6 @@ const profileSchema = new mongoose.Schema({
 		type: mongoose.Types.ObjectId,
 		ref: 'Course'
 	}],
-	wish_list: [{
-		type: mongoose.Types.ObjectId,
-		ref: 'Course'
-	}],
 	experiences: [{
 		title: String,
 		company: String,

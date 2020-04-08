@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Button, Container, Row, Col, Jumbotron } from "react-bootstrap";
+import { Button, Container, Row, Col, Jumbotron, Dropdown } from "react-bootstrap";
+import { FaCheck } from "react-icons/fa";
+
 import Nav from "../header/navigation";
 import Lessons from "./lesson";
 import Reviews from "./reviews";
-import { VerifyToken } from "../utils/auth"
+import { VerifyToken, getToken } from "../utils/auth"
 
 class CourseDetail extends Component {
   constructor(props) {
@@ -25,34 +27,10 @@ class CourseDetail extends Component {
       title: "",
       platform: "",
       review_page: 0,
-      reviews: {
-        reviews: [
-          {
-            _id: "5e8b70ed7ee00d6900695b58",
-            comment: "Great course",
-            rating: 5,
-            course: "5e8935b96eb291b24ab293d6",
-            rated_by: "Angela",
-            created_at: "2020-04-06T18:11:57.129Z",
-            __v: 0,
-          },
-          {
-            _id: "5e8b70d07ee00d6900695b57",
-            comment: "bad course",
-            rating: 1,
-            course: "5e8935b96eb291b24ab293d6",
-            rated_by: "Jayden Sun",
-            created_at: "2020-04-06T18:11:28.821Z",
-            __v: 0,
-          },
-        ],
-        limit: 5,
-        page: 1,
-        pages: 1,
-        total: 2,
-        avg_rating: 3,
-      },
+      reviews: "",
       courseid: "",
+      courseStatus: "",
+      token: ""
     };
   }
 
@@ -60,6 +38,9 @@ class CourseDetail extends Component {
     if (!VerifyToken()) {
       return this.props.history.push("/");
     }
+
+    const token = getToken().token;
+    this.setState({ token: token })
 
     const handle = this.props.match.params.id;
     fetch(`http://localhost:3000/api/courses/${handle}`)
@@ -85,6 +66,27 @@ class CourseDetail extends Component {
           courseid: data[0]._id,
         }));
       });
+
+    fetch(`http://localhost:3000/api/user/course/${handle}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const status = data.message;
+        console.log(status);
+        if (status == "New Course") {
+          this.setState({ courseStatus: "Start Course" });
+        } else if (status == "In Progress") {
+          this.setState({ courseStatus: "Marked as Completed" });
+        } else if (status == "Completed") {
+          this.setState({ courseStatus: "Completed" });
+        }
+      });
   }
 
   loadMoreReview(pageNumber) {
@@ -94,6 +96,36 @@ class CourseDetail extends Component {
       },
       () => this.loadPage()
     );
+  }
+
+  changeStatus() {
+    const courseStatus = this.state.courseStatus;
+    let newStatus = "inProgress"
+    if (courseStatus == "Marked as Completed") {
+      newStatus = "Completed"
+    }
+
+    fetch(`http://localhost:3000/api/user/course`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: this.state.token,
+      },
+      body: JSON.stringify({
+        courseId: this.props.match.params.id,
+        newStatus: newStatus
+      })
+    }).then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          if (newStatus == "inProgress") {
+            this.setState({ courseStatus: "Marked as Completed" })
+          } else {
+            this.setState({ courseStatus: "Completed" })
+          }
+        }
+      });
   }
 
   render() {
@@ -127,8 +159,10 @@ class CourseDetail extends Component {
                     window.open(this.state.url);
                   }}
                 >
-                  Start {freeCourse}Course
+                  Course Link
               </Button>
+                {this.state.courseStatus != "Completed" ? <Button className="mt-2" onClick={this.changeStatus.bind(this)}> {this.state.courseStatus} </Button> : <Button className="mt-2 completedBtn" > <FaCheck /> {this.state.courseStatus} </Button>}
+
               </Jumbotron>
             </Col>
           </Row>

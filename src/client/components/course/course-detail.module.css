@@ -24,10 +24,12 @@ h5 {
   color: #1e383c;
 }
 
-/* #1e383c
+.courseLinkButton {
+  margin-right: 18px;
+}
 
-#47646f
-#8ea6b2
-#c3ccd3
-#E5E9ED
-#f6f8fa */
+.completedBtn {
+  pointer-events: none;
+  background-color: #13ab5e;
+  border-color: #13ab5e;
+}

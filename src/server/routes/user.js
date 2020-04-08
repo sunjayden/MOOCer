@@ -151,11 +151,6 @@ router.get('/profile', verify, async (req, res) => {
 			model: 'Course',
 			select: '_id title url image shortSummary'
 		})
-		.populate({
-			path: 'profile.wish_list',
-			model: 'Course',
-			select: '_id title url image shortSummary'
-		})
 
 	res.send(user);
 });
@@ -166,35 +161,22 @@ router.post('/course', verify, async (req, res) => {
 		_id: req.user._id
 	});
 
-	user.profile.in_progress.push(req.body.courseId);
-
-	try {
-		await user.save();
-		res.send({
-			'success': true,
-			'message': 'Course added'
-		});
-	} catch (err) {
-		res.status(400).send({
-			'success': false,
-			'error': err
-		});
+	const newStatus = req.body.newStatus;
+	if (newStatus == "inProgress") {
+		user.profile.in_progress.push(req.body.courseId);
+	} else if (newStatus == "Completed") {
+		const index = user.profile.in_progress.indexOf(req.body.courseId);
+		if (index > -1) {
+			user.profile.in_progress.splice(index, 1);
+		}
+		user.profile.courses.push(req.body.courseId);
 	}
-});
-
-// Add course to wish list
-router.post('/wishlist', verify, async (req, res) => {
-	const user = await User.findOne({
-		_id: req.user._id
-	});
-
-	user.profile.wish_list.push(req.body.courseId);
 
 	try {
 		await user.save();
 		res.send({
 			'success': true,
-			'message': 'Course added'
+			'message': 'Course status changed'
 		});
 	} catch (err) {
 		res.status(400).send({
@@ -211,23 +193,18 @@ router.get('/course/:id', verify, async (req, res) => {
 	});
 
 	if (user.profile.in_progress.includes(req.params.id)) {
-		res.send({
+		return res.send({
 			'success': true,
 			'message': 'In Progress'
 		});
 	} else if (user.profile.courses.includes(req.params.id)) {
-		res.send({
+		return res.send({
 			'success': true,
 			'message': 'Completed'
 		});
-	} else if (user.profile.wish_list.includes(req.params.id)) {
-		res.send({
-			'success': true,
-			'message': 'Wish List'
-		});
 	}
 
-	res.send({
+	return res.send({
 		'success': true,
 		'message': 'New Course'
 	});
