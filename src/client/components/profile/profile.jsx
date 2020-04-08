@@ -8,9 +8,13 @@ import {
   Card,
   ListGroup,
   ListGroupItem,
+  Button,
 } from "react-bootstrap";
 import Experience from "./profile-experiences";
 import "./profile.module.css";
+import Chip from "@material-ui/core/Chip";
+import Nav from "../header/navigation";
+import { Pencil } from "react-bootstrap-icons";
 
 class Profile extends Component {
   constructor(props) {
@@ -21,7 +25,23 @@ class Profile extends Component {
       location: "Atlanta, GA",
       about:
         "hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.hello, my name is frank.",
-      skills: ["java", "python", "git", "react", "javascript"],
+      skills: [
+        "java",
+        "python",
+        "git",
+        "react",
+        "javascript",
+        "java",
+        "python",
+        "git",
+        "react",
+        "javascript",
+        "java",
+        "python",
+        "git",
+        "react",
+        "javascript",
+      ],
       courses: [
         {
           tags: ["Product Management", "Product Manager"],
@@ -86,7 +106,7 @@ class Profile extends Component {
           __v: 0,
         },
         {
-          tags: [],
+          tags: ["PM", "Product Management"],
           degree: false,
           _id: "5e8935b96eb291b24ab293d7",
           affiliates: [],
@@ -169,9 +189,17 @@ class Profile extends Component {
   renderSkillList() {
     return this.state.skills.map((skill, index) => {
       return (
-        <ListGroupItem key={index} style={{ border: "none" }}>
-          {skill}
-        </ListGroupItem>
+        <Chip
+          key={index}
+          style={{
+            backgroundColor: "#8ea6b2",
+            fontSize: "medium",
+            color: "#f6f8fa",
+            marginRight: "5px",
+            marginTop: "5px",
+          }}
+          label={skill}
+        />
       );
     });
   }
@@ -195,68 +223,83 @@ class Profile extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col xs={12} className="mt-5 mb-0">
-            <Jumbotron
-              style={{
-                backgroundImage:
-                  "url(" +
-                  "https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" +
-                  ")",
-                backgroundSize: "cover",
-              }}
+      <>
+        <Nav />
+        <Container>
+          <Row className="justify-content-end mr-3 mt-3">
+            <Button
+              style={{ backgroundColor: "#8ea6b2", outlineColor: "#8ea6b2" }}
             >
-              <h2>{this.state.name}</h2>
-              <h5 style={{ color: "#47646f" }}>
-                {this.state.title} | {this.state.location}
-              </h5>
-            </Jumbotron>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Card>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "30px" }}>About</Card.Title>
-                <Card.Subtitle muted>{this.state.about}</Card.Subtitle>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} className="mt-4">
-            <Card>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "30px" }}>Skills</Card.Title>
-                <ListGroup horizontal>{this.renderSkillList()}</ListGroup>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} className="mt-4">
-            <Card>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "30px" }}>Courses</Card.Title>
-                <ListGroup>{this.renderCourseList()}</ListGroup>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="mb-5">
-          <Col xs={12} className="mt-4">
-            <Card>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "30px" }}>
-                  Experiences
-                </Card.Title>
-                <Experience experiencesList={this.state.experiences} />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+              Edit Profile <Pencil />
+            </Button>
+          </Row>
+          <Row>
+            <Col xs={12} className="mb-0 mt-4">
+              <Jumbotron
+                style={{
+                  backgroundImage:
+                    "url(" +
+                    "https://mdbootstrap.com/img/Photos/Others/background.jpg" +
+                    ")",
+                  backgroundSize: "cover",
+                }}
+              >
+                <h2>{this.state.name}</h2>
+                <h5 style={{ color: "#47646f" }}>
+                  {this.state.title} | {this.state.location}
+                </h5>
+              </Jumbotron>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>About</Card.Title>
+                  <Card.Subtitle muted style={{ color: "#47646f" }}>
+                    {this.state.about}
+                  </Card.Subtitle>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} className="mt-4">
+              <Card>
+                <Card.Body>
+                  <Card.Title>Skills</Card.Title>
+                  {/* <ListGroup horizontal> */}
+                  {this.renderSkillList()}
+                  {/* </ListGroup> */}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} className="mt-4">
+              <Card>
+                <Card.Body>
+                  <Card.Title>Courses</Card.Title>
+                  <ListGroup>{this.renderCourseList()}</ListGroup>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            <Col xs={12} className="mt-4">
+              <Card>
+                <Card.Body>
+                  <Card.Title>Experiences</Card.Title>
+                  <Experience
+                    className="mt-5"
+                    experiencesList={this.state.experiences}
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </>
     );
   }
 }
