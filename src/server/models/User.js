@@ -1,5 +1,27 @@
 const mongoose = require('mongoose');
 
+const profileSchema = new mongoose.Schema({
+	title: String,
+	location: String,
+	about: String,
+	skills: [{
+		type: String
+	}],
+	courses: [{
+		type: mongoose.Types.ObjectId,
+		ref: 'Course'
+	}],
+	experiences: [{
+		title: String,
+		company: String,
+		startDate: String,
+		endDate: String,
+		description: String
+	}]
+}, {
+	_id: false
+});
+
 const userSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
@@ -24,7 +46,8 @@ const userSchema = new mongoose.Schema({
 	created_at: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	profile: profileSchema
 });
 
 module.exports = mongoose.model('User', userSchema);

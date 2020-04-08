@@ -13,12 +13,18 @@ router.post('/register', async (req, res) => {
 	const {
 		error
 	} = registerValidation(req.body);
-	if (error) return res.status(400).send({'success': false, 'error': error.details[0].message});
+	if (error) return res.status(400).send({
+		'success': false,
+		'error': error.details[0].message
+	});
 
 	const emailExist = await User.findOne({
 		email: req.body.email.toLowerCase()
 	});
-	if (emailExist) return res.status(400).send({'success': false, 'error': 'Email already exists'});
+	if (emailExist) return res.status(400).send({
+		'success': false,
+		'error': 'Email already exists'
+	});
 
 	const salt = await bcrypt.genSalt(10);
 	const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -35,9 +41,15 @@ router.post('/register', async (req, res) => {
 		const token = jwt.sign({
 			_id: user._id
 		}, process.env.TOKEN_SECRET);
-		res.header('Authorization', token).send({'success': true, 'token': token});
+		res.header('Authorization', token).send({
+			'success': true,
+			'token': token
+		});
 	} catch (err) {
-		res.status(400).send({'success': false, 'error': err});
+		res.status(400).send({
+			'success': false,
+			'error': err
+		});
 	}
 });
 
@@ -46,30 +58,94 @@ router.post('/login', async (req, res) => {
 	const {
 		error
 	} = loginValidation(req.body);
-	if (error) return res.status(400).send({'success': false, 'error': error.details[0].message});
+	if (error) return res.status(400).send({
+		'success': false,
+		'error': error.details[0].message
+	});
 
 	const user = await User.findOne({
 		email: req.body.email.toLowerCase()
 	});
-	if (!user) return res.status(400).send({'success': false, 'error': 'Email or password is incorret'});
+	if (!user) return res.status(400).send({
+		'success': false,
+		'error': 'Email or password is incorret'
+	});
 
 	const validPass = await bcrypt.compare(req.body.password, user.password);
-	if (!validPass) return res.status(400).send({'success': false, 'error': 'Email or password is incorret'});
+	if (!validPass) return res.status(400).send({
+		'success': false,
+		'error': 'Email or password is incorret'
+	});
 
 	const token = jwt.sign({
 		_id: user._id
 	}, process.env.TOKEN_SECRET);
-	res.header('Authorization', token).send({'success': true, 'token': token});
+	res.header('Authorization', token).send({
+		'success': true,
+		'token': token
+	});
+});
+
+// Get Basic Info
+router.get('/', verify, async (req, res) => {
+	const infoExist = await User.findOne({
+		_id: req.user._id
+	}, '-password -__v');
+	if (!infoExist) return res.status(400).send({
+		'success': false,
+		'error': 'Information not found'
+	});
+
+	res.send(infoExist);
+});
+
+// Create Profile
+router.post('/profile', verify, async (req, res) => {
+	const user = await User.findOne({
+		_id: req.user._id
+	});
+
+	user.firstName = req.body.firstName;
+	user.lastName = req.body.lastName
+
+	user.profile = {
+		title: req.body.title,
+		location: req.body.location,
+		courses: user.profile.courses,
+		// courses: [
+		// 	"5e8935b96eb291b24ab293ce"
+		// ],
+		about: req.body.about,
+		skills: req.body.skills,
+		experiences: req.body.experiences
+	}
+
+	try {
+		await user.save();
+		res.send({
+			'success': true,
+			'message': 'Profile saved'
+		});
+	} catch (err) {
+		res.status(400).send({
+			'success': false,
+			'error': err
+		});
+	}
 });
 
 // Get Profile
-router.get('/', verify, async (req, res) => {
-	const profileExist = await User.findOne({
-		_id: req.user._id
-	}, '-password -__v');
-	if (!profileExist) return res.status(400).send('Profile not found');
+router.get('/profile', verify, async (req, res) => {
+	const user = await User.findOne({
+			_id: req.user._id
+		}, '-password -created_at -__v')
+		.populate({
+			path: 'profile.courses',
+			model: 'Course',
+			select: '_id title url image shortSummary'
+		});
 
-	res.send(profileExist);
+	res.send(user);
 });
 
 module.exports = router;
