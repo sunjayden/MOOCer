@@ -5,9 +5,7 @@ import { IoMdSettings, IoMdExit } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 
 import Logo from "../imgs/logo.png";
-import {
-  getFromStorage, deleteFromStorage
-} from "../utils/storage";
+import { getFromStorage, deleteFromStorage } from "../utils/storage";
 import "./navigation.module.css"
 
 class Navigation extends Component {
