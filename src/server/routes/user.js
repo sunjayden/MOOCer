@@ -112,6 +112,8 @@ router.post('/profile', verify, async (req, res) => {
 		title: req.body.title,
 		location: req.body.location,
 		courses: user.profile.courses,
+		in_progress: user.profile.in_progress,
+		wish_list: user.profile.wish_list,
 		// courses: [
 		// 	"5e8935b96eb291b24ab293ce"
 		// ],
@@ -147,5 +149,80 @@ router.get('/profile', verify, async (req, res) => {
 
 	res.send(user);
 });
+
+// Add course to in progress
+router.post('/course', verify, async (req, res) => {
+	const user = await User.findOne({
+		_id: req.user._id
+	});
+
+	user.profile.in_progress.push(req.body.courseId);
+
+	try {
+		await user.save();
+		res.send({
+			'success': true,
+			'message': 'Course added'
+		});
+	} catch (err) {
+		res.status(400).send({
+			'success': false,
+			'error': err
+		});
+	}
+});
+
+// Add course to wish list
+router.post('/wishlist', verify, async (req, res) => {
+	const user = await User.findOne({
+		_id: req.user._id
+	});
+
+	user.profile.wish_list.push(req.body.courseId);
+
+	try {
+		await user.save();
+		res.send({
+			'success': true,
+			'message': 'Course added'
+		});
+	} catch (err) {
+		res.status(400).send({
+			'success': false,
+			'error': err
+		});
+	}
+});
+
+// Get course progress 
+router.get('/course/:id', verify, async (req, res) => {
+	const user = await User.findOne({
+		_id: req.user._id
+	});
+
+	if (user.profile.in_progress.includes(req.params.id)) {
+		res.send({
+			'success': true,
+			'message': 'In Progress'
+		});
+	} else if (user.profile.courses.includes(req.params.id)) {
+		res.send({
+			'success': true,
+			'message': 'Completed'
+		});
+	} else if (user.profile.wish_list.includes(req.params.id)) {
+		res.send({
+			'success': true,
+			'message': 'Wish List'
+		});
+	}
+
+	res.send({
+		'success': true,
+		'message': 'New Course'
+	});
+});
+
+
 
 module.exports = router;
