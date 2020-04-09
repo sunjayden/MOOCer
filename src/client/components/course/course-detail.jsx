@@ -43,7 +43,7 @@ class CourseDetail extends Component {
 
     window.scrollTo(0, 0);
 
-    const token = getToken().token;
+    const token = GetToken().token;
     this.setState({ token: token })
 
     const handle = this.props.match.params.id;

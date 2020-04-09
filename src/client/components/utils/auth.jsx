@@ -10,6 +10,6 @@ export const VerifyToken = () => {
 	return true;
 }
 
-export const getToken = () => {
+export const GetToken = () => {
 	return getFromStorage("moocer");
 }

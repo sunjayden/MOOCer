@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Card, Media, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, } from "react-bootstrap";
 
-import profile_img1 from "../imgs/profile1.svg";
-import profile_img2 from "../imgs/profile2.svg";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import { VerifyToken, getToken } from "../utils/auth"
+import { VerifyToken, GetToken } from "../utils/auth"
 import Nav from "../header/navigation";
 
 
@@ -24,8 +21,7 @@ class Classroom extends Component {
 		if (!VerifyToken()) {
 			return this.props.history.push("/");
 		}
-		const token = getToken().token;
-		console.log(token)
+		const token = GetToken().token;
 		fetch(`http://localhost:3000/api/user/profile`, {
 			method: 'GET',
 			headers: {

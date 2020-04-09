@@ -15,7 +15,7 @@ import "./profile.module.css";
 import Chip from "@material-ui/core/Chip";
 import Nav from "../header/navigation";
 import { Link } from "react-router-dom";
-import { VerifyToken, getToken } from "../utils/auth";
+import { VerifyToken, GetToken } from "../utils/auth";
 
 class Profile extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class Profile extends Component {
   }
 
   loadData = async () => {
-    const token = getToken().token;
+    const token = GetToken().token;
     this.setState({ token: token });
     await fetch(`http://localhost:3000/api/user`, {
       method: "GET",

@@ -11,7 +11,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
-import { getToken } from "../utils/auth.jsx";
+import { GetToken } from "../utils/auth.jsx";
 
 import "./reviews.module.css";
 
@@ -118,7 +118,7 @@ class Reviews extends Component {
   };
   sumbitReview() {
     // console.log("in submit");
-    // console.log(getToken().token);
+    // console.log(GetToken().token);
 
     if (this.state.rating > 0) {
       let url = `http://localhost:3000/api/reviews?courseId=${this.state.courseId}`;
@@ -126,7 +126,7 @@ class Reviews extends Component {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: getToken().token,
+          Authorization: GetToken().token,
         },
         body: JSON.stringify({
           course: `${this.state.courseId}`,

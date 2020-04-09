@@ -9,7 +9,7 @@ import AddSchool from "./add-school";
 import UpdateUserInfo from "./user-info";
 import { Tabs, Tab, TextField } from "@material-ui/core";
 import "./edit-profile.module.css";
-import { VerifyToken, getToken } from "../utils/auth";
+import { VerifyToken, GetToken } from "../utils/auth";
 
 class EditProfile extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class EditProfile extends Component {
   }
 
   loadData = async () => {
-    const token = getToken().token;
+    const token = GetToken().token;
     this.setState({ token: token });
     await fetch(`http://localhost:3000/api/user`, {
       method: "GET",
@@ -88,7 +88,7 @@ class EditProfile extends Component {
       });
   };
   onSaveChanges = () => {
-    const token = getToken().token;
+    const token = GetToken().token;
     this.setState({ token: token });
     console.log(this.state);
     fetch(`http://localhost:3000/api/user/profile`, {

@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Home from "./components/home/app-main";
+import Home from "./components/home/home";
 import About from "./components/about/about";
 import Auth from "./components/auth/authentication";
 import Footer from "./components/footer/footer";
 import Catalog from "./components/catalog/catalog";
 import CourseDetail from "./components/course/course-detail";
-import Profile from "./components/profile/profile";
-import EditProfile from "./components/profile/edit-profile";
 import Classroom from "./components/classroom/classroom";
 import ProfileRoute from "./components/route/profileRoute";
 import "./app.css";

@@ -30,7 +30,7 @@ class Navigation extends Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link href="/overview">Overview</Nav.Link>
-            <NavDropdown title="Programs" id="collasible-nav-dropdown">
+            {/* <NavDropdown title="Programs" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 Another action
@@ -40,7 +40,7 @@ class Navigation extends Component {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
           <div className="vl"></div>
           <Nav.Link className="nav-button" href="/auth">
@@ -80,7 +80,7 @@ class Navigation extends Component {
             title={<IoMdSettings />}
           >
             <Dropdown.Item onClick={() => this.props.history.push("/portfolio")}><FaUser /> My Portfolio</Dropdown.Item>
-            <Dropdown.Item eventKey="2"><IoMdSettings /> Settings</Dropdown.Item>
+            {/* <Dropdown.Item eventKey="2"><IoMdSettings /> Settings</Dropdown.Item> */}
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleShow}><IoMdExit /> Logout</Dropdown.Item>
           </DropdownButton>
