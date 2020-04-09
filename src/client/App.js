@@ -9,6 +9,7 @@ import Catalog from "./components/catalog/catalog";
 import CourseDetail from "./components/course/course-detail";
 import Profile from "./components/profile/profile";
 import EditProfile from "./components/profile/edit-profile";
+import Classroom from "./components/classroom/classroom";
 import "./app.css";
 
 export default class App extends Component {
@@ -32,6 +33,7 @@ export default class App extends Component {
             <Route path="/catalog" component={Catalog} />
             <Route path="/portfolio" component={Profile} />
             <Route path="/edit" component={EditProfile} />
+            <Route path="/classroom" component={Classroom} />
           </Switch>
         </BrowserRouter>
         <Footer />

@@ -10,9 +10,9 @@ class CatalogItem extends Component {
   }
 
   render() {
-    let level =
-      this.props.courseDetail.level.slice(0, 1).toUpperCase() +
-      this.props.courseDetail.level.slice(1);
+    let captalize = (str) => {
+      return str.slice(0, 1).toUpperCase() + str.slice(1);
+    };
     let price = this.props.courseDetail.isFreeCourse == true ? " | Free" : " | Paid";
     let duration = this.props.courseDetail.duration ? " | " + this.props.courseDetail.duration : "";
 
@@ -23,108 +23,18 @@ class CatalogItem extends Component {
           src={this.props.courseDetail.image}
         />
         <Media.Body>
-          <div className="provider">Udacity</div>
+          <div className="provider">{captalize(this.props.courseDetail.platform)}</div>
           <h3><Link to={"/course/" + this.props.courseDetail._id} className="course-title">{this.props.courseDetail.title}</Link></h3>
           <p className="course-summary">
             {this.props.courseDetail.shortSummary}
           </p>
           <p className="course-meta">
-            {level} {duration} {price}
+            {captalize(this.props.courseDetail.level)} {duration} {price}
           </p>
           <div className="text-right">
-            {/* <Redirect
-              to={{
-                pathname: "/catalog/" + this.props.courseDetail._id,
-                state: { courseid: this.props.courseDetail._id },
-              }}
-            >
-              More Detail
-            </Redirect> */}
-            {/* <Button
-              className="ml-auto"
-              onClick={
-                () => this.routeChange()
-                // this.nextPath("/catalog/" + this.props.courseDetail._id)
-              }
-            > */}
-            {/* More Detail
-            </Button> */}
           </div>
         </Media.Body>
       </Media>
-      // <Container>
-      //   <Row>
-      //     <Col sm={4}>
-
-      //     </Col>
-      //     <Col sm={8}>
-
-      //     </Col>
-      //   </Row>
-      // </Container>
-      // <Card className="course-card">
-      //   {/* <Card.Img variant="left" src="https://d20vrrgs8k4bvw.cloudfront.net/images/degrees/nd036/catalog+image+nd036.jpg" /> */}
-      //   <Card.Body
-      //     style={{
-      //       backgroundColor: this.props.index % 2 == 0 ? "#c3ccd3" : "#f6f8fa",
-      //     }}
-      //   >
-      //     <Card.Title
-      //       style={{
-      //         color: this.props.index % 2 == 0 ? "#FFFFFF" : "#47646f",
-      //       }}
-      //     >
-      //       {this.props.courseDetail.title}
-      //     </Card.Title>
-
-      //     <Card.Text
-      //       style={{ color: this.props.index % 2 == 0 ? "#f6f8fa" : "#8ea6b2" }}
-      //     >
-      //       {this.props.courseDetail.shortSummary}
-      //     </Card.Text>
-
-      //     <ListGroup
-      //       className="list-group-flush"
-      //       style={{
-      //         backgroundColor:
-      //           this.props.index % 2 == 0 ? "#c3ccd3" : "#f6f8fa",
-      //       }}
-      //     >
-      //       <ListGroupItem
-      //         style={{
-      //           color: this.props.index % 2 == 0 ? "#f6f8fa" : "#8ea6b2",
-      //           backgroundColor:
-      //             this.props.index % 2 == 0 ? "#c3ccd3" : "#f6f8fa",
-      //         }}
-      //       >
-      //         Duration: {this.props.courseDetail.duration}
-      //       </ListGroupItem>
-
-      //       <ListGroupItem
-      //         style={{
-      //           color: this.props.index % 2 == 0 ? "#f6f8fa" : "#8ea6b2",
-      //           backgroundColor:
-      //             this.props.index % 2 == 0 ? "#c3ccd3" : "#f6f8fa",
-      //         }}
-      //       >
-      //         Level: {this.props.courseDetail.level}
-      //       </ListGroupItem>
-      //     </ListGroup>
-      //     <Button
-      //       style={{
-      //         float: "right",
-      //         color: this.props.index % 2 == 0 ? "#8ea6b2" : "#f6f8fa",
-      //         backgroundColor:
-      //           this.props.index % 2 == 0 ? "#f6f8fa" : "#c3ccd3",
-
-      //         outlineColor: "none",
-      //         marginTop: "10px",
-      //       }}
-      //     >
-      //       Detail
-      //     </Button>
-      //   </Card.Body>
-      // </Card>
     );
   }
 }

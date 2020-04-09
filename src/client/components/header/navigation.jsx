@@ -69,7 +69,7 @@ class Navigation extends Component {
           <Nav className="ml-auto">
             <Nav.Link href="/overview">Overview</Nav.Link>
             <Nav.Link href="/catalog">Course Catalog</Nav.Link>
-            <Nav.Link href="/overview">My Classroom</Nav.Link>
+            <Nav.Link href="/classroom">My Classroom</Nav.Link>
           </Nav>
           <div className="vl"></div>
 
