@@ -7,7 +7,7 @@ import withReactContent from 'sweetalert2-react-content'
 import Nav from "../header/navigation";
 import Lessons from "./lesson";
 import Reviews from "./reviews";
-import { VerifyToken, getToken } from "../utils/auth"
+import { VerifyToken, GetToken } from "../utils/auth"
 
 class CourseDetail extends Component {
   constructor(props) {
