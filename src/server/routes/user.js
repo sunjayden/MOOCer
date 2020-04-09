@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
 	} = registerValidation(req.body);
 	if (error) return res.status(400).send({
 		'success': false,
-		'error': error.details[0].message
+		'message': error.details[0].message
 	});
 
 	const emailExist = await User.findOne({
@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
 	});
 	if (emailExist) return res.status(400).send({
 		'success': false,
-		'error': 'Email already exists'
+		'message': 'This email already exists!'
 	});
 
 	const salt = await bcrypt.genSalt(10);
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 	} = loginValidation(req.body);
 	if (error) return res.status(400).send({
 		'success': false,
-		'error': error.details[0].message
+		'message': error.details[0].message
 	});
 
 	const user = await User.findOne({
@@ -68,13 +68,13 @@ router.post('/login', async (req, res) => {
 	});
 	if (!user) return res.status(400).send({
 		'success': false,
-		'error': 'Email or password is incorret'
+		'message': 'The email or password is invalid'
 	});
 
 	const validPass = await bcrypt.compare(req.body.password, user.password);
 	if (!validPass) return res.status(400).send({
 		'success': false,
-		'error': 'Email or password is incorret'
+		'message': 'The email or password is invalid'
 	});
 
 	const token = jwt.sign({

@@ -13,6 +13,7 @@ class RegisterBox extends Component {
       password: "",
       errors: [],
       pwdState: null,
+      signupError: ""
     };
   }
 
@@ -68,20 +69,29 @@ class RegisterBox extends Component {
     }
   }
 
+  emailIsValid(email) {
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+	}
+
   submitRegister(e) {
     const { firstName, lastName, email, password } = this.state;
 
     if (firstName == "") {
-      this.showValidationErr("firstName", "First Name Cannot be empty!");
+      this.showValidationErr("firstName", "First name cannot be empty!");
     }
     if (lastName == "") {
-      this.showValidationErr("lastName", "Last Name Cannot be empty!");
+      this.showValidationErr("lastName", "Last name cannot be empty!");
     }
     if (email == "") {
-      this.showValidationErr("email", "Email Cannot be empty!");
+      this.showValidationErr("email", "Email cannot be empty!");
     }
-    if (password == "") {
-      this.showValidationErr("password", "Password Cannot be empty!");
+
+    if (!this.emailIsValid(email)) {
+			this.showValidationErr("email", "Email must be a valid email!");
+    }
+    
+    if (password.length < 6) {
+      this.showValidationErr("password", "Password must be greater than 6 characters!");
     }
 
     if (firstName && lastName && email && password) {
@@ -102,6 +112,8 @@ class RegisterBox extends Component {
           if (json.success) {
             setInStorage("moocer", { token: json.token });
             this.props.history.push("/portfolio/edit");
+          } else {
+            this.setState({signupError: json.message});
           }
         });
     }
@@ -214,6 +226,8 @@ class RegisterBox extends Component {
               </div>
             )}
           </div>
+
+          <small className="danger-error">{this.state.signupError}</small>
 
           <button
             type="button"

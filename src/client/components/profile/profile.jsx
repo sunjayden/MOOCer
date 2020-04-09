@@ -45,7 +45,7 @@ class Profile extends Component {
   loadData = async () => {
     const token = GetToken().token;
     this.setState({ token: token });
-    await fetch(`http://localhost:3000/api/user`, {
+    await fetch(`http://localhost:3000/api/user/profile`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -71,8 +71,7 @@ class Profile extends Component {
           _experiences = data.profile.experiences;
           _educations = data.profile.education;
         }
-        console.log(data.profile);
-        console.log(data.profile.skills);
+
         this.setState(() => ({
           firstName: data.firstName,
           lastName: data.lastName,
@@ -85,14 +84,11 @@ class Profile extends Component {
           experiences: _experiences,
           educations: _educations,
         }));
-        console.log(this.state.skills);
-        console.log(this.state.experiences);
       });
   };
 
   renderSkillList() {
     return this.state.skills.map((skill, index) => {
-      console.log("test");
       return (
         <Chip
           key={index}

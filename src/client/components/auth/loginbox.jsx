@@ -12,6 +12,7 @@ class LoginBox extends Component {
 			email: "",
 			password: "",
 			errors: [],
+			loginError: ""
 		};
 	}
 
@@ -48,14 +49,23 @@ class LoginBox extends Component {
 		this.clearValidationErr("password");
 	}
 
+	emailIsValid(email) {
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+	}
+
 	submitLogin(e) {
 		const { email, password } = this.state;
 
 		if (email == "") {
-			this.showValidationErr("email", "Email Cannot be empty!");
+			this.showValidationErr("email", "Email cannot be empty!");
 		}
+
+		if (!this.emailIsValid(email)) {
+			this.showValidationErr("email", "Email must be a valid email!");
+		}
+
 		if (password == "") {
-			this.showValidationErr("password", "Password Cannot be empty!");
+			this.showValidationErr("password", "Password cannot be empty!");
 		}
 
 		if (email && password) {
@@ -73,7 +83,10 @@ class LoginBox extends Component {
 					if (json.success) {
 						setInStorage("moocer", { token: json.token })
 						this.props.history.push("/catalog");
+					} else {
+						this.setState({ loginError: json.message });
 					}
+					console.log(json.message)
 				})
 		}
 	}
@@ -127,6 +140,8 @@ class LoginBox extends Component {
 							? passwordErr
 							: ""}</small>
 					</div>
+
+					<small className="danger-error">{this.state.loginError}</small>
 
 					<button
 						type="button"
