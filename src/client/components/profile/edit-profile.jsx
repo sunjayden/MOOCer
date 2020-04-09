@@ -54,18 +54,22 @@ class EditProfile extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        const _location = data.hasOwnProperty("location") ? data.location : "";
-        const _title = data.hasOwnProperty("title") ? data.title : "";
-        const _about = data.hasOwnProperty("about") ? data.about : "";
-        const _skills = data.hasOwnProperty("skills") ? data.skills : [];
-
-        // const _courses = data.hasOwnProperty("courses") ? data.courses : [];
-        const _experiences = data.hasOwnProperty("experiences")
-          ? data.experiences
-          : [];
-        const _educations = data.hasOwnProperty("educations")
-          ? data.educations
-          : [];
+        let _location = "";
+        let _title = "";
+        let _about = "";
+        let _skills = [];
+        let _courses = [];
+        let _experiences = [];
+        let _educations = [];
+        if (data.hasOwnProperty("profile")) {
+          _location = data.profile.location;
+          _title = data.profile.title;
+          _about = data.profile.about;
+          _skills = data.profile.skills;
+          // _courses = data.profile.courses;
+          _experiences = data.profile.experiences;
+          _educations = data.profile.education;
+        }
 
         this.setState(() => ({
           firstName: data.firstName,
@@ -86,7 +90,7 @@ class EditProfile extends Component {
   onSaveChanges = () => {
     const token = getToken().token;
     this.setState({ token: token });
-
+    console.log(this.state);
     fetch(`http://localhost:3000/api/user/profile`, {
       method: "POST",
       headers: {
@@ -95,13 +99,15 @@ class EditProfile extends Component {
         Authorization: token,
       },
       body: JSON.stringify({
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
         title: this.state.title,
         location: this.state.location,
         education: this.state.educations,
         about: this.state.about,
         skills: this.state.skills,
         // courses: this.state.courses,
-        experiences: this.state.experience,
+        experiences: this.state.experiences,
       }),
     })
       .then((res) => res.json())
@@ -397,6 +403,7 @@ class EditProfile extends Component {
                   </Row>
                 </Container>
               </TabPanel>
+
               <TabPanel value={this.state.value} index={3}>
                 <Container>
                   <Row>

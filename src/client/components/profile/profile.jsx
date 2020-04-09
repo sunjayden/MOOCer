@@ -38,12 +38,14 @@ class Profile extends Component {
     if (!VerifyToken()) {
       return this.props.history.push("/");
     }
-
     window.scrollTo(0, 0);
+    this.loadData();
+  }
 
+  loadData = async () => {
     const token = getToken().token;
     this.setState({ token: token });
-    fetch(`http://localhost:3000/api/user`, {
+    await fetch(`http://localhost:3000/api/user`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -53,18 +55,24 @@ class Profile extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        const _location = data.hasOwnProperty("location") ? data.location : "";
-        const _title = data.hasOwnProperty("title") ? data.title : "";
-        const _about = data.hasOwnProperty("about") ? data.about : "";
-        const _skills = data.hasOwnProperty("skills") ? data.skills : [];
-        const _courses = data.hasOwnProperty("courses") ? data.courses : [];
-        const _experiences = data.hasOwnProperty("experiences")
-          ? data.experiences
-          : [];
-        const _educations = data.hasOwnProperty("educations")
-          ? data.educations
-          : [];
-
+        let _location = "";
+        let _title = "";
+        let _about = "";
+        let _skills = [];
+        let _courses = [];
+        let _experiences = [];
+        let _educations = [];
+        if (data.hasOwnProperty("profile")) {
+          _location = data.profile.location;
+          _title = data.profile.title;
+          _about = data.profile.about;
+          _skills = data.profile.skills;
+          _courses = data.profile.courses;
+          _experiences = data.profile.experiences;
+          _educations = data.profile.education;
+        }
+        console.log(data.profile);
+        console.log(data.profile.skills);
         this.setState(() => ({
           firstName: data.firstName,
           lastName: data.lastName,
@@ -77,11 +85,14 @@ class Profile extends Component {
           experiences: _experiences,
           educations: _educations,
         }));
-        console.log(data);
+        console.log(this.state.skills);
+        console.log(this.state.experiences);
       });
-  }
+  };
+
   renderSkillList() {
     return this.state.skills.map((skill, index) => {
+      console.log("test");
       return (
         <Chip
           key={index}
@@ -128,7 +139,7 @@ class Profile extends Component {
                 <Card.Subtitle>
                   {education.degree} | {education.major}
                 </Card.Subtitle>
-                {education.startYear} - {education.endYear}
+                {education.startDate} - {education.endDate}
               </Card.Body>
             </Card>
           </Col>

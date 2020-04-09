@@ -19,25 +19,7 @@ class UpdateUserInfo extends Component {
       badEmail: false,
     };
   }
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (
-  //     (nextProps.firstName !== prevState.firstName) |
-  //     (nextProps.lastName !== prevState.lastName) |
-  //     (nextProps.title !== prevState.title) |
-  //     (nextProps.location !== prevState.location) |
-  //     (nextProps.email !== prevState.email) |
-  //     (nextProps.about !== prevState.about)
-  //   ) {
-  //     return {
-  //       firstName: nextProps.firstName,
-  //       lastName: nextProps.lastName,
-  //       title: nextProps.title,
-  //       location: nextProps.location,
-  //       email: nextProps.email,
-  //       about: nextProps.about,
-  //     };
-  //   } else return null;
-  // }
+
   componentDidMount() {
     this.setState({
       firstName: this.props.firstName,
