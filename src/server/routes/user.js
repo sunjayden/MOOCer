@@ -105,17 +105,18 @@ router.post('/profile', verify, async (req, res) => {
 		_id: req.user._id
 	});
 
-	console.log(req.body.firstName);
 	user.firstName = req.body.firstName;
 	user.lastName = req.body.lastName
+
+	const courses = user.profile ? user.profile.courses : [];
+	const in_progress = user.profile ? user.profile.courses : [];
 
 	user.profile = {
 		title: req.body.title,
 		education: req.body.education,
 		location: req.body.location,
-		courses: user.profile.courses,
-		in_progress: user.profile.in_progress,
-		wish_list: user.profile.wish_list,
+		courses: courses,
+		in_progress: in_progress,
 		about: req.body.about,
 		skills: req.body.skills,
 		experiences: req.body.experiences
