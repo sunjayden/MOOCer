@@ -20,6 +20,7 @@ class EditProfile extends Component {
       addEduDiv: false,
       showSuccExpUpdate: false,
       showSuccEduUpdate: false,
+      showSuccSave: false,
       firstName: "",
       lastName: "",
       title: "",
@@ -114,6 +115,8 @@ class EditProfile extends Component {
       .then((data) => {
         console.log(data);
       });
+    this.toggleUpdateSuc();
+    this.dissmissSuccSaveAlert();
   };
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
@@ -200,12 +203,17 @@ class EditProfile extends Component {
   dissmissSuccExpAlert() {
     setTimeout(() => {
       this.setState({ showSuccExpUpdate: false });
-    }, 5000);
+    }, 3000);
   }
   dissmissSuccEduAlert() {
     setTimeout(() => {
       this.setState({ showSuccEduUpdate: false });
-    }, 5000);
+    }, 3000);
+  }
+  dissmissSuccSaveAlert() {
+    setTimeout(() => {
+      this.setState({ showSuccSave: false });
+    }, 3000);
   }
 
   eduCallBackFunction = async (childData) => {
@@ -235,9 +243,15 @@ class EditProfile extends Component {
       showSuccExpUpdate: !state.showSuccExpUpdate,
     }));
   };
+
   toggleEduUpdateSuc = () => {
     this.setState((state) => ({
       showSuccEduUpdate: !state.showSuccEduUpdate,
+    }));
+  };
+  toggleUpdateSuc = () => {
+    this.setState((state) => ({
+      showSuccSave: !state.showSuccSave,
     }));
   };
 
@@ -408,6 +422,9 @@ class EditProfile extends Component {
                 <Container>
                   <Row>
                     <Col>
+                      {this.state.showSuccSave ? (
+                        <Alert variant="success">Profile Updated!</Alert>
+                      ) : null}
                       <h5 className="mb-3">Add Your Past Experiences</h5>
                     </Col>
                   </Row>
