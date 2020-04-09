@@ -1,11 +1,23 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button, Card, Alert } from "react-bootstrap";
-import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
 import DatePicker from "react-datepicker";
 import { TextField } from "@material-ui/core";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-import { FaSadCry } from "react-icons/fa";
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 class AddExperience extends Component {
   constructor(props) {
@@ -16,35 +28,37 @@ class AddExperience extends Component {
       startDate: new Date(),
       endDate: new Date(),
       description: "",
-      showGood: false,
       badTitle: false,
       badCompany: false,
       badStartDate: false,
       badEndDate: false,
     };
+
     console.log(this.state);
   }
   sendData = () => {
+    const startMonth = monthNames[this.state.startDate.getUTCMonth()];
+    const startYear = this.state.startDate.getUTCFullYear();
+    const newStartDate = startMonth + " " + startYear;
+    const endMonth = monthNames[this.state.endDate.getUTCMonth()];
+    const endYear = this.state.endDate.getUTCFullYear();
+    const newEndDate = endMonth + " " + endYear;
+
     this.props.parentDataCallback({
       title: this.state.title,
       company: this.state.company,
-      // waiting until fix date stuff
-      // startDate: this.state.startDate,
-      // endDate: this.state.endDate,
+      startDate: newStartDate,
+      endDate: newEndDate,
       description: this.state.description,
     });
-    this.setState({
-      showGood: true,
-    });
-    setTimeout(() => {
-      this.setState({ showGood: false });
-    }, 5000);
   };
 
   onSubmit = () => {
     console.log(this.state.startDate);
     console.log(this.state.endDate);
+    console.log(typeof this.state.startDate);
     console.log(this.state.description);
+
     if (this.state.title == "") {
       this.setState({
         badTitle: true,
@@ -55,16 +69,16 @@ class AddExperience extends Component {
         badCompany: true,
       });
       this.dissmissCompanyAlert();
-    } else if (this.state.startDate == "") {
-      this.setState({
-        badStartDate: true,
-      });
-      this.dissmissStartDateAlert();
-    } else if (this.state.endDate == "") {
-      this.setState({
-        badEndDate: true,
-      });
-      this.dissmissEndDateAlert();
+      // } else if (typeof this.state.startDate != "string") {
+      //   this.setState({
+      //     badStartDate: true,
+      //   });
+      //   this.dissmissStartDateAlert();
+      // } else if (this.state.endDate == "") {
+      //   this.setState({
+      //     badEndDate: true,
+      //   });
+      //   this.dissmissEndDateAlert();
     } else {
       this.sendData();
     }
@@ -101,6 +115,7 @@ class AddExperience extends Component {
       company: event.target.value,
     });
   };
+
   startDateChange = (date) => {
     this.setState({
       startDate: date,
@@ -108,10 +123,6 @@ class AddExperience extends Component {
   };
 
   endDateChange = (date) => {
-    // const options = {};
-    // console.log(this.state.endDate);
-    // console.log(date.getMonth(), date.getYear());
-    // _data = date.getMonth() + ", " + date.getYear();
     this.setState({
       endDate: date,
     });
@@ -171,7 +182,7 @@ class AddExperience extends Component {
             <Row>
               <Col>
                 <DatePicker
-                  dateFormat="MMMM d, yyyy"
+                  dateFormat="MMMM, yyyy"
                   selected={this.state.startDate}
                   onSelect={(date) => this.startDateChange(date)}
                 />

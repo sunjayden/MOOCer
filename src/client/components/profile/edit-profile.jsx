@@ -9,6 +9,7 @@ import AddSchool from "./add-school";
 import UpdateUserInfo from "./user-info";
 import { Tabs, Tab, TextField } from "@material-ui/core";
 import "./edit-profile.module.css";
+import { VerifyToken, getToken } from "../utils/auth";
 
 class EditProfile extends Component {
   constructor(props) {
@@ -18,50 +19,96 @@ class EditProfile extends Component {
       addExpDiv: false,
       addEduDiv: false,
       showSuccExpUpdate: false,
-      firstName: "Yuli",
-      lastName: "Liu",
-      title: "Student",
-      email: "yliu@gmail.com",
-      location: "Atlanta, GA",
-      about: "Hello, this is about.",
+      showSuccEduUpdate: false,
+      firstName: "",
+      lastName: "",
+      title: "",
+      email: "",
+      location: "",
+      about: "",
       value: 0,
-      skills: ["java", "python", "html", "react", "javascript"],
-      educations: [
-        {
-          school: "Georgia Tech",
-          degree: "Bachelors",
-          major: "Computer Science",
-          startYear: 2015,
-          endYear: 2019,
-        },
-        {
-          school: "Georgia Tech",
-          degree: "Masters",
-          major: "Computer Science",
-          startYear: 2019,
-          endYear: 2020,
-        },
-      ],
-      experiences: [
-        {
-          title: "Software Engineer Inern",
-          company: "Some Company one",
-          startDate: "Jan 2020",
-          endDate: "May 2020",
-          description:
-            "worked on projects, coded, learned a lot. build some things.worked on projects, coded, learned a lot. build some things. ",
-        },
-        {
-          title: "Software Engineer Inern",
-          company: "Some Company two",
-          startDate: "Jan 2019",
-          endDate: "May 2019",
-          description:
-            "worked on projects, coded, learned a lot. build some things.worked on projects, coded, learned a lot. build some things. ",
-        },
-      ],
+      skills: [],
+      educations: [],
+      // courses: [],
+      experiences: [],
     };
   }
+  componentDidMount() {
+    if (!VerifyToken()) {
+      return this.props.history.push("/");
+    }
+    window.scrollTo(0, 0);
+    this.loadData();
+  }
+
+  loadData = async () => {
+    const token = getToken().token;
+    this.setState({ token: token });
+    await fetch(`http://localhost:3000/api/user`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const _location = data.hasOwnProperty("location") ? data.location : "";
+        const _title = data.hasOwnProperty("title") ? data.title : "";
+        const _about = data.hasOwnProperty("about") ? data.about : "";
+        const _skills = data.hasOwnProperty("skills") ? data.skills : [];
+
+        // const _courses = data.hasOwnProperty("courses") ? data.courses : [];
+        const _experiences = data.hasOwnProperty("experiences")
+          ? data.experiences
+          : [];
+        const _educations = data.hasOwnProperty("educations")
+          ? data.educations
+          : [];
+
+        this.setState(() => ({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          title: _title,
+          location: _location,
+          email: data.email,
+          about: _about,
+          skills: _skills,
+          // courses: _courses,
+          experiences: _experiences,
+          educations: _educations,
+        }));
+        console.log(this.state);
+        console.log(data);
+      });
+  };
+  onSaveChanges = () => {
+    const token = getToken().token;
+    this.setState({ token: token });
+
+    fetch(`http://localhost:3000/api/user/profile`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        title: this.state.title,
+        location: this.state.location,
+        education: this.state.educations,
+        about: this.state.about,
+        skills: this.state.skills,
+        // courses: this.state.courses,
+        experiences: this.state.experience,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
   };
@@ -98,7 +145,7 @@ class EditProfile extends Component {
                 <Card.Subtitle>
                   {education.degree} | {education.major}
                 </Card.Subtitle>
-                {education.startYear} - {education.endYear}
+                {education.startDate} - {education.endDate}
               </Card.Body>
             </Card>
           </Col>
@@ -141,21 +188,29 @@ class EditProfile extends Component {
     });
     this.toggleAddExp();
     this.toggleExpUpdateSuc();
-    setTimeout(() => {
-      this.setState({
-        showSuccExpUpdate: false,
-      });
-    }, 5000);
-    console.log(this.state.experiences);
+    this.dissmissSuccExpAlert();
   };
 
+  dissmissSuccExpAlert() {
+    setTimeout(() => {
+      this.setState({ showSuccExpUpdate: false });
+    }, 5000);
+  }
+  dissmissSuccEduAlert() {
+    setTimeout(() => {
+      this.setState({ showSuccEduUpdate: false });
+    }, 5000);
+  }
+
   eduCallBackFunction = async (childData) => {
-    await this.setState((experiences) => {
+    await this.setState((educations) => {
       const list = this.state.educations;
       list.push(childData);
       return list;
     });
     this.toggleAddEdu();
+    this.toggleEduUpdateSuc();
+    this.dissmissSuccEduAlert();
   };
 
   toggleAddExp = () => {
@@ -172,6 +227,11 @@ class EditProfile extends Component {
   toggleExpUpdateSuc = () => {
     this.setState((state) => ({
       showSuccExpUpdate: !state.showSuccExpUpdate,
+    }));
+  };
+  toggleEduUpdateSuc = () => {
+    this.setState((state) => ({
+      showSuccEduUpdate: !state.showSuccEduUpdate,
     }));
   };
 
@@ -230,6 +290,7 @@ class EditProfile extends Component {
                         onChange={(chips) => this.handleSkillChange(chips)}
                         // onChange={(chips) => handleChange(chips)} => update skill state
                       />
+                      {console.log(this.state)}
                     </Col>
                   </Row>
                   <Row className="mt-3 ml-3">
@@ -276,6 +337,9 @@ class EditProfile extends Component {
                       <h5 className="mb-3">Add Your Past Educations</h5>
                     </Col>
                   </Row>
+                  {this.state.showSuccEduUpdate ? (
+                    <Alert variant="success">Education Updated!</Alert>
+                  ) : null}
                   <Row>
                     <Col>
                       <Row className="justify-content-end mt-3 mr-3">
@@ -285,6 +349,7 @@ class EditProfile extends Component {
                         >
                           Add School
                         </button>
+
                         {this.state.addEduDiv ? (
                           <AddSchool
                             parentDataCallback={this.eduCallBackFunction}
@@ -361,15 +426,37 @@ class EditProfile extends Component {
                     </Col>
                   </Row>
                   {this.renderExperience()}
-                  <Row className="mt-3 mr-3 justify-content-end">
-                    <Button
-                      style={{
-                        backgroundColor: "#8ea6b2",
-                        outlineColor: "#8ea6b2",
-                      }}
-                    >
-                      Save Changes
-                    </Button>
+                  <Row className="mt-3">
+                    <Col xs={6}>
+                      <Row className="mt-3">
+                        <ArrowLeft
+                          className="left-arrow"
+                          style={{ marginLeft: 0 }}
+                          onClick={() => this.handleChange(2, 2)}
+                        />
+                      </Row>
+                      <Row>
+                        <button
+                          className="control-btn"
+                          onClick={() => this.handleChange(2, 2)}
+                        >
+                          Previous
+                        </button>
+                      </Row>
+                    </Col>
+                    <Col xs={6}>
+                      <Row className="mr-3 justify-content-end">
+                        <Button
+                          style={{
+                            backgroundColor: "#8ea6b2",
+                            outlineColor: "#8ea6b2",
+                          }}
+                          onClick={() => this.onSaveChanges()}
+                        >
+                          Save Changes
+                        </Button>
+                      </Row>
+                    </Col>
                   </Row>
                 </Container>
               </TabPanel>

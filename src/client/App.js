@@ -10,6 +10,7 @@ import CourseDetail from "./components/course/course-detail";
 import Profile from "./components/profile/profile";
 import EditProfile from "./components/profile/edit-profile";
 import Classroom from "./components/classroom/classroom";
+import ProfileRoute from "./components/route/profileRoute";
 import "./app.css";
 
 export default class App extends Component {
@@ -31,9 +32,8 @@ export default class App extends Component {
             <Route exact={true} path="/overview" component={About} />
             <Route exact={true} path="/course/:id" component={CourseDetail} />
             <Route path="/catalog" component={Catalog} />
-            <Route path="/portfolio" component={Profile} />
-            <Route path="/edit" component={EditProfile} />
             <Route path="/classroom" component={Classroom} />
+            <Route path="/portfolio" component={ProfileRoute} />
           </Switch>
         </BrowserRouter>
         <Footer />

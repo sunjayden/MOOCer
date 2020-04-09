@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button, Card, Alert } from "react-bootstrap";
-import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
 import DatePicker from "react-datepicker";
 import { TextField } from "@material-ui/core";
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 class AddSchool extends Component {
   constructor(props) {
@@ -11,9 +25,6 @@ class AddSchool extends Component {
       school: "",
       degree: "",
       major: "",
-      // need to fix date stuff
-      // startDate: "Jan 12,2019",
-      // endDate: "Feb 18, 2020",
       startDate: new Date(),
       endDate: new Date(),
       badSchool: false,
@@ -24,19 +35,19 @@ class AddSchool extends Component {
     };
   }
   sendData = () => {
+    const startMonth = monthNames[this.state.startDate.getUTCMonth()];
+    const startYear = parseInt(this.state.startDate.getUTCFullYear());
+    const newStartDate = startMonth + " " + startYear;
+    const endMonth = monthNames[this.state.endDate.getUTCMonth()];
+    const endYear = parseInt(this.state.endDate.getUTCFullYear());
+    const newEndDate = endMonth + " " + endYear;
     this.props.parentDataCallback({
       school: this.state.school,
       degree: this.state.degree,
       major: this.state.major,
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
+      startDate: newStartDate,
+      endDate: newEndDate,
     });
-    // this.setState({
-    //   showGood: true,
-    // });
-    // setTimeout(() => {
-    //   this.setState({ showGood: false });
-    // }, 5000);
   };
 
   onSubmit = () => {
@@ -63,11 +74,11 @@ class AddSchool extends Component {
         badStartDate: true,
       });
       this.dissmissStartDateAlert();
-    } else if (this.state.endDate == "") {
-      this.setState({
-        badEndDate: true,
-      });
-      this.dissmissEndDateAlert();
+      // } else if (this.state.endDate == "") {
+      //   this.setState({
+      //     badEndDate: true,
+      //   });
+      //   this.dissmissEndDateAlert();
     } else {
       this.sendData();
     }
@@ -123,7 +134,6 @@ class AddSchool extends Component {
     this.setState({
       endDate: date,
     });
-    console.log(this.state.endDate);
   };
   descriptionChange = (event) => {
     this.setState({
@@ -194,9 +204,10 @@ class AddSchool extends Component {
             <Row>
               <Col>
                 <DatePicker
-                  dateFormat="MM yyyy"
-                  selected={this.state.endDate}
-                  onSelect={(date) => this.endDateChange(date)}
+                  dateFormat="MMMM, yyyy"
+                  fullWidth
+                  selected={this.state.startDate}
+                  onSelect={(date) => this.startDateChange(date)}
                 />
               </Col>
             </Row>
@@ -208,7 +219,8 @@ class AddSchool extends Component {
             <Row>
               <Col>
                 <DatePicker
-                  dateFormat="MM yyyy"
+                  fullWidth
+                  dateFormat="MMMM, yyyy"
                   selected={this.state.endDate}
                   onChange={(date) => this.endDateChange(date)}
                 />
